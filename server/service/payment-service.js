@@ -1,4 +1,5 @@
 const botService = require('./bot-service');
+const logChatService = require('./log-chat-service');
 const PaymentTrackingModel = require('../models/payment-tracking-model');
 const UserModel = require('../models/user-model');
 
@@ -36,6 +37,21 @@ class PaymentService {
                 referralCode: user.referralCode || 'нет кода',
                 status
             });
+
+            // Логируем успешное пополнение в чат
+            if (status === 'success') {
+                try {
+                    await logChatService.logPayment(
+                        userId,
+                        user.email,
+                        amount,
+                        transactionId,
+                        user.referralCode
+                    );
+                } catch (logError) {
+                    console.warn('Ошибка логирования пополнения в чат:', logError.message);
+                }
+            }
 
             return paymentTracking;
         } catch (error) {

@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const mailService = require('./mail-service');
 const tokenService = require('./token-service');
 const referralService = require('./referral-service');
+const logChatService = require('./log-chat-service');
 const ApiError = require('../exceptions/api-error');
 const UserDto = require('../dtos/user-dto');
 
@@ -43,6 +44,13 @@ class UserService {
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
+        // Логируем регистрацию в чат
+        try {
+            await logChatService.logRegistration(email, referralCode, registrationSource);
+        } catch (logError) {
+            console.warn('Ошибка логирования регистрации в чат:', logError.message);
+        }
 
         return {...tokens, user: userDto}
 
