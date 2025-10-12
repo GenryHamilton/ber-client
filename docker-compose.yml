@@ -1,0 +1,74 @@
+version: '3.8'
+
+networks:
+  dev:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: mister-berg-nginx
+    restart: always
+    ports: 
+      - "80:80"
+    volumes:
+      - './nginx.conf:/etc/nginx/conf.d/default.conf'
+    depends_on:
+      - server
+      - client
+    networks:
+      - dev
+
+  mongodb:
+    image: mongo:latest
+    container_name: mister-berg-db
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    networks:
+      - dev
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: mister-berg-server
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+      DB_URL: mongodb://admin:admin123@mongodb:27017/mister-berg?authSource=admin
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-your-secret-key}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-your-refresh-secret}
+      CLIENT_URL: http://localhost,http://site.ru
+      API_URL: http://localhost
+    depends_on:
+      - mongodb
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    networks:
+      - dev
+
+  client:
+    build:
+      context: ./client
+      dockerfile: DockerFile
+    container_name: mister-berg-client
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - dev
+
+volumes:
+  mongodb_data:
+
