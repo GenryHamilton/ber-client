@@ -34,7 +34,7 @@ const LoginPage = () => {
     <div className="login-page">
       <div className="login-container">
         <div className="login-brand">
-          <h1>🎰 Mister Berg Casino</h1>
+          <h1>🎰 Axion Casino</h1>
           <p>Премиальное онлайн казино</p>
         </div>
         
@@ -52,7 +52,7 @@ const LoginPage = () => {
         </div>
         
         <div className="login-footer">
-          <p>© 2024 Mister Berg Casino. Все права защищены.</p>
+          <p>© 2024 Axion Casino. Все права защищены.</p>
         </div>
       </div>
     </div>

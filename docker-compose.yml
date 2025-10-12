@@ -7,7 +7,7 @@ networks:
 services:
   nginx:
     image: nginx:stable-alpine
-    container_name: mister-berg-nginx
+    container_name: axion-nginx
     restart: always
     ports: 
       - "80:80"
@@ -23,7 +23,7 @@ services:
 
   mongodb:
     image: mongo:latest
-    container_name: mister-berg-db
+    container_name: axion-db
     restart: always
     ports:
       - "27017:27017"
@@ -39,13 +39,13 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: mister-berg-server
+    container_name: axion-server
     restart: always
     ports:
       - "3001:3001"
     environment:
       PORT: 3001
-      DB_URL: mongodb://admin:admin123@mongodb:27017/mister-berg?authSource=admin
+      DB_URL: mongodb://admin:admin123@mongodb:27017/axion?authSource=admin
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-your-secret-key}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-your-refresh-secret}
       CLIENT_URL: http://localhost,http://site.ru
@@ -62,7 +62,7 @@ services:
     build:
       context: ./client
       dockerfile: DockerFile
-    container_name: mister-berg-client
+    container_name: axion-client
     restart: always
     ports:
       - "3000:3000"

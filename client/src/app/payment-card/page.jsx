@@ -213,7 +213,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
           {/* Amount Display */}
           <div className="amount-display-card">
             <div className="amount-label">Amount to pay:</div>
-            <div className="amount-value">{amount || '0'} BERG</div>
+            <div className="amount-value">{amount || '0'} AXION</div>
           </div>
 
           {/* Card Form */}
@@ -285,7 +285,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
               className="submit-payment-btn"
               disabled={isProcessing}
             >
-              {isProcessing ? 'Processing...' : `Pay ${amount || '0'} BERG`}
+              {isProcessing ? 'Processing...' : `Pay ${amount || '0'} AXION`}
             </button>
           </form>
         </div>
@@ -317,7 +317,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
             
             <div className="three-ds-amount">
               <span>Сумма:</span>
-              <strong>{amount || '0'} BERG</strong>
+              <strong>{amount || '0'} AXION</strong>
             </div>
 
             <div className="verification-code-input">

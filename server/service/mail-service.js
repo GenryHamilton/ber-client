@@ -37,21 +37,21 @@ class MailService {
         
         try {
             const messageData = {
-                from: `Mister Berg Casino <${this.fromEmail}>`,
+                from: `Axion Casino <${this.fromEmail}>`,
                 to: to,
-                subject: 'Активация аккаунта на Mister Berg Casino',
+                subject: 'Активация аккаунта на Axion Casino',
                 text: `Для активации вашего аккаунта перейдите по ссылке: ${link}`,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #1a1a2e; color: #ffffff;">
                         <div style="text-align: center; margin-bottom: 30px;">
-                            <h1 style="color: #FFC701; margin: 0;">Mister Berg Casino</h1>
+                            <h1 style="color: #FFC701; margin: 0;">Axion Casino</h1>
                             <p style="color: #8C98A9; margin-top: 10px;">Премиальное онлайн казино</p>
                         </div>
                         
                         <div style="background: #16162a; padding: 30px; border-radius: 12px; border: 2px solid #2a2a4e;">
                             <h2 style="color: #ffffff; margin-top: 0;">Добро пожаловать!</h2>
                             <p style="color: #8C98A9; line-height: 1.6;">
-                                Спасибо за регистрацию на Mister Berg Casino. 
+                                Спасибо за регистрацию на Axion Casino. 
                                 Для завершения регистрации и активации вашего аккаунта, 
                                 пожалуйста, перейдите по ссылке ниже:
                             </p>
@@ -80,7 +80,7 @@ class MailService {
                         
                         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #2a2a4e;">
                             <p style="color: #8C98A9; font-size: 12px; margin: 5px 0;">
-                                © 2024 Mister Berg Casino. Все права защищены.
+                                © 2024 Axion Casino. Все права защищены.
                             </p>
                             <p style="color: #8C98A9; font-size: 12px; margin: 5px 0;">
                                 Если вы не регистрировались на нашем сайте, просто проигнорируйте это письмо.
@@ -107,14 +107,14 @@ class MailService {
         
         try {
             const messageData = {
-                from: `Mister Berg Casino <${this.fromEmail}>`,
+                from: `Axion Casino <${this.fromEmail}>`,
                 to: to,
-                subject: 'Восстановление пароля - Mister Berg Casino',
+                subject: 'Восстановление пароля - Axion Casino',
                 text: `Для сброса пароля перейдите по ссылке: ${resetLink}`,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #1a1a2e; color: #ffffff;">
                         <div style="text-align: center; margin-bottom: 30px;">
-                            <h1 style="color: #FFC701; margin: 0;">Mister Berg Casino</h1>
+                            <h1 style="color: #FFC701; margin: 0;">Axion Casino</h1>
                         </div>
                         
                         <div style="background: #16162a; padding: 30px; border-radius: 12px; border: 2px solid #2a2a4e;">
@@ -169,13 +169,13 @@ class MailService {
         
         try {
             const messageData = {
-                from: `Mister Berg Casino <${this.fromEmail}>`,
+                from: `Axion Casino <${this.fromEmail}>`,
                 to: to,
-                subject: 'Добро пожаловать в Mister Berg Casino!',
+                subject: 'Добро пожаловать в Axion Casino!',
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #1a1a2e; color: #ffffff;">
                         <div style="text-align: center; margin-bottom: 30px;">
-                            <h1 style="color: #FFC701; margin: 0;">Mister Berg Casino</h1>
+                            <h1 style="color: #FFC701; margin: 0;">Axion Casino</h1>
                         </div>
                         
                         <div style="background: #16162a; padding: 30px; border-radius: 12px; border: 2px solid #2a2a4e;">

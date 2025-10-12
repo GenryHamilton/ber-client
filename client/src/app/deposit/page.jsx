@@ -126,8 +126,8 @@ const DepositPage = ({ onProceedToPayment }) => {
           <div className="deposit-info-box">
             <div className="info-icon">💰</div>
             <div className="info-text">
-              <div>Minimum deposit amount - 300 BERG</div>
-              <div>Maximum deposit amount - 300 000 BERG</div>
+              <div>Minimum deposit amount - 300 AXION</div>
+              <div>Maximum deposit amount - 300 000 AXION</div>
             </div>
           </div>
 

@@ -7,7 +7,7 @@ const RootLayout = ({ children }) => {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Mister Berg Casino</title>
+        <title>Axion Casino</title>
         <meta name="description" content="Премиальное онлайн казино" />
       </head>
       <body>

@@ -120,9 +120,9 @@ const WithdrawPage = () => {
           <div className="withdraw-info-box">
             <div className="info-icon">💰</div>
             <div className="info-text">
-              <div>Minimum withdrawal amount - 300 BERG</div>
-              <div>Maximum withdrawal amount - {balance.toFixed(2)} BERG</div>
-              <div>Available balance: {balance.toFixed(2)} BERG</div>
+              <div>Minimum withdrawal amount - 300 AXION</div>
+              <div>Maximum withdrawal amount - {balance.toFixed(2)} AXION</div>
+              <div>Available balance: {balance.toFixed(2)} AXION</div>
             </div>
           </div>
 

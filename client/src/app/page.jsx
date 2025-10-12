@@ -144,7 +144,7 @@ const HomePage = () => {
             <div className="header-logo">
               <div className="logo-text">
                 <span className="play-now">play now</span>
-                <span className="casino-name">Mister Berg</span>
+                <span className="casino-name">Axion</span>
               </div>
             </div>
           
@@ -231,7 +231,7 @@ const HomePage = () => {
               <div className="balance-label">Баланс</div>
               <div className="balance-amount">
                 <span className="balance-value">0.0</span>
-                <span className="balance-currency">BERG</span>
+                <span className="balance-currency">AXION</span>
                 <button 
                   className="balance-mini-btn balance-mini-btn-deposit" 
                   title="Пополнить"
@@ -376,7 +376,7 @@ const HomePage = () => {
                 <div className="game-banner">
                   <div className="banner-content">
                     <div className="banner-text">
-                      <h1>Mister Berg Casino</h1>
+                      <h1>Axion Casino</h1>
                       <p>Online strategy with unique games! Crash, mines, roulette, double, monopoly and other games! Daily bonuses and holiday events! Try and get a free bonus 🔥 Official website</p>
                     </div>
                     <div className="banner-actions">
@@ -632,7 +632,7 @@ const HomePage = () => {
             <a href="#" className="footer-link">Support</a>
           </div>
           <div className="footer-copyright">
-            <span>© 2024 Mister Berg Casino. All rights reserved.</span>
+            <span>© 2024 Axion Casino. All rights reserved.</span>
           </div>
         </div>
       </div>
