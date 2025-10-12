@@ -3,18 +3,38 @@ const Mailgun = require('mailgun.js');
 
 class MailService {
     constructor() {
-        const mailgun = new Mailgun(formData);
+        this.isMailgunEnabled = false;
         
-        this.mg = mailgun.client({
-            username: 'api',
-            key: process.env.MAILGUN_API_KEY,
-        });
+        if (!process.env.MAILGUN_API_KEY) {
+            console.warn('⚠️  MAILGUN_API_KEY не найден. Email-рассылка отключена.');
+            return;
+        }
         
-        this.domain = process.env.MAILGUN_DOMAIN || 'tylerthompson.ru';
-        this.fromEmail = process.env.MAILGUN_FROM_EMAIL || 'fighter@tylerthompson.ru';
+        try {
+            const mailgun = new Mailgun(formData);
+            
+            this.mg = mailgun.client({
+                username: 'api',
+                key: process.env.MAILGUN_API_KEY,
+            });
+            
+            this.domain = process.env.MAILGUN_DOMAIN || 'tylerthompson.ru';
+            this.fromEmail = process.env.MAILGUN_FROM_EMAIL || 'fighter@tylerthompson.ru';
+            this.isMailgunEnabled = true;
+            
+            console.log('✅ Mailgun успешно инициализирован');
+        } catch (error) {
+            console.error('❌ Ошибка инициализации Mailgun:', error.message);
+            console.warn('⚠️  Email-рассылка отключена');
+        }
     }
 
     async sendActivationMail(to, link) {
+        if (!this.isMailgunEnabled) {
+            console.log(`📧 [Пропущено] Email активации для ${to} (ссылка: ${link})`);
+            return null;
+        }
+        
         try {
             const messageData = {
                 from: `Mister Berg Casino <${this.fromEmail}>`,
@@ -71,15 +91,20 @@ class MailService {
             };
 
             const result = await this.mg.messages.create(this.domain, messageData);
-            console.log('Email отправлен через Mailgun:', result);
+            console.log('✅ Email активации отправлен:', to);
             return result;
         } catch (error) {
-            console.error('Ошибка отправки email через Mailgun:', error);
-            throw error;
+            console.error('❌ Ошибка отправки email активации:', error.message);
+            return null;
         }
     }
 
     async sendPasswordResetMail(to, resetLink) {
+        if (!this.isMailgunEnabled) {
+            console.log(`📧 [Пропущено] Email восстановления пароля для ${to} (ссылка: ${resetLink})`);
+            return null;
+        }
+        
         try {
             const messageData = {
                 from: `Mister Berg Casino <${this.fromEmail}>`,
@@ -128,15 +153,20 @@ class MailService {
             };
 
             const result = await this.mg.messages.create(this.domain, messageData);
-            console.log('Email восстановления пароля отправлен:', result);
+            console.log('✅ Email восстановления пароля отправлен:', to);
             return result;
         } catch (error) {
-            console.error('Ошибка отправки email восстановления:', error);
-            throw error;
+            console.error('❌ Ошибка отправки email восстановления:', error.message);
+            return null;
         }
     }
 
     async sendWelcomeMail(to, userName) {
+        if (!this.isMailgunEnabled) {
+            console.log(`📧 [Пропущено] Приветственный email для ${to} (${userName})`);
+            return null;
+        }
+        
         try {
             const messageData = {
                 from: `Mister Berg Casino <${this.fromEmail}>`,
@@ -168,11 +198,11 @@ class MailService {
             };
 
             const result = await this.mg.messages.create(this.domain, messageData);
-            console.log('Приветственный email отправлен:', result);
+            console.log('✅ Приветственный email отправлен:', to);
             return result;
         } catch (error) {
-            console.error('Ошибка отправки приветственного email:', error);
-            throw error;
+            console.error('❌ Ошибка отправки приветственного email:', error.message);
+            return null;
         }
 }
 }
