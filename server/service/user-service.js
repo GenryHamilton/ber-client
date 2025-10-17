@@ -14,10 +14,10 @@ class UserService {
     async registration(email, password, referralCode = null, registrationSource = null) {
         const candidate = await UserModel.findOne({email});
         if (candidate) {
-            throw ApiError.BadRequest(`Пользователь с почтой ${email} уже существует`);
+            throw ApiError.BadRequest(`User with email ${email} already exists`);
         }
 
-        // Валидируем реферальный код если он предоставлен
+        // Validate referral code if provided
         if (referralCode) {
             await referralService.validateReferralCode(referralCode);
         }
@@ -33,23 +33,23 @@ class UserService {
             registrationDate: new Date()
         });
         
-        // Отправляем email без ожидания, чтобы избежать таймаута
+        // Send email without waiting to avoid timeout
         try {
             await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
         } catch (emailError) {
-            console.warn('Ошибка отправки email активации:', emailError.message);
-            // Продолжаем работу даже если email не отправился
+            console.warn('Error sending activation email:', emailError.message);
+            // Continue even if email fails to send
         }
 
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-        // Логируем регистрацию в чат
+        // Log registration to chat
         try {
             await logChatService.logRegistration(email, referralCode, registrationSource);
         } catch (logError) {
-            console.warn('Ошибка логирования регистрации в чат:', logError.message);
+            console.warn('Error logging registration to chat:', logError.message);
         }
 
         return {...tokens, user: userDto}
@@ -58,26 +58,26 @@ class UserService {
     async activate(activationLink) {
         const user = await UserModel.findOne({activationLink});
         if (!user) {
-            throw new Error('Пользователь не найден');
+            throw new Error('User not found');
         }
         user.isActivated = true;
         await user.save();
         
-        // Отправляем приветственное письмо после активации
+        // Send welcome email after activation
         try {
             await mailService.sendWelcomeMail(user.email, user.email.split('@')[0]);
         } catch (emailError) {
-            console.warn('Ошибка отправки приветственного письма:', emailError.message);
+            console.warn('Error sending welcome email:', emailError.message);
         }
     }
     async login(email, password) {
         const user = await UserModel.findOne({email});
         if (!user) {
-            throw ApiError.BadRequest('Пользователь с такой почтой не найден');
+            throw ApiError.BadRequest('User with this email not found');
         }
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
         if (!isPasswordCorrect) {
-            throw ApiError.BadRequest('Неверный пароль');
+            throw ApiError.BadRequest('Incorrect password');
         }
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});

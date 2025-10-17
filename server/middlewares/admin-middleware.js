@@ -1,6 +1,6 @@
 const ApiError = require('../exceptions/api-error');
 
-// Список email адресов администраторов
+// List of admin email addresses
 const ADMIN_EMAILS = process.env.ADMIN_EMAILS ? process.env.ADMIN_EMAILS.split(',') : [];
 
 module.exports = function(req, res, next) {
@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
             return next(ApiError.UnauthorizedError());
         }
 
-        // Проверяем является ли пользователь администратором
+        // Check if user is an administrator
         if (!ADMIN_EMAILS.includes(req.user.email)) {
             return next(ApiError.Forbidden());
         }

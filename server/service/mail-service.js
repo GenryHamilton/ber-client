@@ -6,7 +6,7 @@ class MailService {
         this.isMailgunEnabled = false;
         
         if (!process.env.MAILGUN_API_KEY) {
-            console.warn('⚠️  MAILGUN_API_KEY не найден. Email-рассылка отключена.');
+            console.warn('⚠️  MAILGUN_API_KEY not found. Email sending disabled.');
             return;
         }
         
@@ -22,10 +22,10 @@ class MailService {
             this.fromEmail = process.env.MAILGUN_FROM_EMAIL || 'fighter@tylerthompson.ru';
             this.isMailgunEnabled = true;
             
-            console.log('✅ Mailgun успешно инициализирован');
+            console.log('✅ Mailgun successfully initialized');
         } catch (error) {
-            console.error('❌ Ошибка инициализации Mailgun:', error.message);
-            console.warn('⚠️  Email-рассылка отключена');
+            console.error('❌ Mailgun initialization error:', error.message);
+            console.warn('⚠️  Email sending disabled');
         }
     }
 

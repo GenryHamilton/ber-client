@@ -8,7 +8,7 @@ class TokenService {
         if (!accessSecret || !refreshSecret) {
             throw new Error('JWT secrets are not configured. Set JWT_ACCESS_SECRET and JWT_REFRESH_SECRET in environment.');
         }
-        const accessToken = jwt.sign(payload, accessSecret, {expiresIn: '30m'}) // Увеличено до 30 минут
+        const accessToken = jwt.sign(payload, accessSecret, {expiresIn: '30m'}) // Increased to 30 minutes
         const refreshToken = jwt.sign(payload, refreshSecret, {expiresIn: '30d'})
         return {
             accessToken,
@@ -21,7 +21,7 @@ class TokenService {
         const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
         return userData;
     } catch(e) {
-        console.log('❌ Ошибка валидации токена:', e.message);
+        console.log('❌ Token validation error:', e.message);
         return null;
     }
   }

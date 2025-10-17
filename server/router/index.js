@@ -20,7 +20,7 @@ router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.get('/users', authMiddleware, userController.getUsers);
 
-// Реферальные роуты (только для администраторов)
+// Referral routes (admin only)
 router.post('/admin/referral/create', authMiddleware, adminMiddleware, referralController.createCode);
 router.get('/admin/referral/list', authMiddleware, adminMiddleware, referralController.getList);
 router.put('/admin/referral/toggle', authMiddleware, adminMiddleware, referralController.toggleCode);

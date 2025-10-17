@@ -10,18 +10,31 @@ const errorMiddleware = require('./exceptions/error-middleware');
 
 app.use(express.json())
 app.use(cookieParser());
+
+// CORS configuration for multiple origins
+const allowedOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(',') : ['http://localhost:3000'];
 app.use(cors({
   credentials: true,
-  origin: process.env.CLIENT_URL
+  origin: function (origin, callback) {
+    // Allow requests without origin (e.g., mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'CORS policy does not allow access from origin: ' + origin;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  }
 }));
-app.use('/api', router);
+
+app.use('/', router);
 app.use(errorMiddleware);
 
-// Middleware для обработки ошибок
+// Error handling middleware
 app.use((err, req, res, next) => {
-    console.error('Ошибка сервера:', err.message);
+    console.error('Server error:', err.message);
     return res.status(500).json({
-        message: err.message || 'Внутренняя ошибка сервера',
+        message: err.message || 'Internal server error',
         ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
     });
 });

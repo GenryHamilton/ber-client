@@ -1,31 +1,31 @@
 const tokenService = require('../service/token-service.js');
 
-// Middleware который пытается авторизовать пользователя, но не выбрасывает ошибку если токена нет
+// Middleware that attempts to authorize user, but doesn't throw error if token is missing
 module.exports = function (req, res, next) {
     try {
         const authorizationHeader = req.headers.authorization;
         
         if (!authorizationHeader) {
-            console.log('🔓 OptionalAuth: токен отсутствует');
+            console.log('🔓 OptionalAuth: token is missing');
             req.user = null;
             return next();
         }
         
         const accessToken = authorizationHeader.split(' ')[1];
         if (!accessToken) {
-            console.log('🔓 OptionalAuth: accessToken пустой');
+            console.log('🔓 OptionalAuth: accessToken is empty');
             req.user = null;
             return next();
         }
 
         const userData = tokenService.validateAccessToken(accessToken);
         if (!userData) {
-            console.log('🔓 OptionalAuth: токен невалидный');
+            console.log('🔓 OptionalAuth: token is invalid');
             req.user = null;
             return next();
         }
 
-        console.log('🔐 OptionalAuth: пользователь авторизован -', userData.email, 'userId:', userData.id);
+        console.log('🔐 OptionalAuth: user authorized -', userData.email, 'userId:', userData.id);
         req.user = userData;
         next();
     } catch (e) {

@@ -7,13 +7,13 @@ class ReferralController {
             const { code, name } = req.body;
             
             if (!code || !name) {
-                return next(ApiError.BadRequest('Код и название обязательны'));
+                return next(ApiError.BadRequest('Code and name are required'));
             }
 
             const referralCode = await referralService.createReferralCode(code, name);
             return res.json({
                 success: true,
-                message: 'Реферальный код создан',
+                message: 'Referral code created',
                 code: referralCode
             });
         } catch (e) {
@@ -38,13 +38,13 @@ class ReferralController {
             const { code, isActive } = req.body;
             
             if (!code || isActive === undefined) {
-                return next(ApiError.BadRequest('Код и статус обязательны'));
+                return next(ApiError.BadRequest('Code and status are required'));
             }
 
             const referralCode = await referralService.toggleReferralCode(code, isActive);
             return res.json({
                 success: true,
-                message: `Код ${isActive ? 'активирован' : 'деактивирован'}`,
+                message: `Code ${isActive ? 'activated' : 'deactivated'}`,
                 code: referralCode
             });
         } catch (e) {
@@ -57,7 +57,7 @@ class ReferralController {
             const { code } = req.params;
             
             if (!code) {
-                // Если код не указан, возвращаем статистику по всем кодам
+                // If code is not specified, return statistics for all codes
                 const stats = await referralService.getAllStats();
                 return res.json({
                     success: true,

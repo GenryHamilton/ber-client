@@ -7,7 +7,7 @@ class ReferralService {
     async createReferralCode(code, name) {
         const existingCode = await ReferralCodeModel.findOne({ code: code.toUpperCase() });
         if (existingCode) {
-            throw ApiError.BadRequest(`Реферальный код ${code} уже существует`);
+            throw ApiError.BadRequest(`Referral code ${code} already exists`);
         }
 
         const referralCode = await ReferralCodeModel.create({
@@ -27,7 +27,7 @@ class ReferralService {
     async toggleReferralCode(code, isActive) {
         const referralCode = await ReferralCodeModel.findOne({ code: code.toUpperCase() });
         if (!referralCode) {
-            throw ApiError.BadRequest(`Реферальный код ${code} не найден`);
+            throw ApiError.BadRequest(`Referral code ${code} not found`);
         }
 
         referralCode.isActive = isActive;
@@ -37,7 +37,7 @@ class ReferralService {
     }
 
     async validateReferralCode(code) {
-        if (!code) return true; // Код опционален
+        if (!code) return true; // Code is optional
         
         const referralCode = await ReferralCodeModel.findOne({ 
             code: code.toUpperCase(),
@@ -45,7 +45,7 @@ class ReferralService {
         });
 
         if (!referralCode) {
-            throw ApiError.BadRequest(`Реферальный код ${code} недействителен или не активен`);
+            throw ApiError.BadRequest(`Referral code ${code} is invalid or not active`);
         }
 
         return true;
@@ -54,20 +54,20 @@ class ReferralService {
     async getReferralStats(code) {
         const referralCode = await ReferralCodeModel.findOne({ code: code.toUpperCase() });
         if (!referralCode) {
-            throw ApiError.BadRequest(`Реферальный код ${code} не найден`);
+            throw ApiError.BadRequest(`Referral code ${code} not found`);
         }
 
-        // Количество регистраций
+        // Number of registrations
         const registrations = await UserModel.countDocuments({ 
             referralCode: code.toUpperCase() 
         });
 
-        // Список пользователей
+        // List of users
         const users = await UserModel.find({ 
             referralCode: code.toUpperCase() 
         }).select('email registrationDate isActivated');
 
-        // Количество платежей
+        // Number of payments
         const payments = await PaymentTrackingModel.find({ 
             referralCode: code.toUpperCase() 
         });
@@ -75,7 +75,7 @@ class ReferralService {
         const successfulPayments = payments.filter(p => p.status === 'success');
         const totalAmount = successfulPayments.reduce((sum, p) => sum + p.amount, 0);
         
-        // Конверсия в первый депозит
+        // First deposit conversion
         const usersWithPayments = new Set(payments.map(p => p.userId.toString()));
         const conversionRate = registrations > 0 
             ? ((usersWithPayments.size / registrations) * 100).toFixed(2) 
@@ -109,7 +109,7 @@ class ReferralService {
                 const codeStat = await this.getReferralStats(code.code);
                 stats.push(codeStat);
             } catch (e) {
-                console.error(`Ошибка получения статистики для ${code.code}:`, e.message);
+                console.error(`Error getting statistics for ${code.code}:`, e.message);
             }
         }
 

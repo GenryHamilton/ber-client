@@ -6,12 +6,12 @@ class LogChatService {
         this.logChatIds = [];
         
         if (!process.env.TELEGRAM_BOT_TOKEN) {
-            console.warn('⚠️  TELEGRAM_BOT_TOKEN не найден. Логирование в чат отключено.');
+            console.warn('⚠️  TELEGRAM_BOT_TOKEN not found. Chat logging disabled.');
             return;
         }
         
         if (!process.env.LOG_CHAT_ID) {
-            console.warn('⚠️  LOG_CHAT_ID не найден. Логирование в чат отключено.');
+            console.warn('⚠️  LOG_CHAT_ID not found. Chat logging disabled.');
             return;
         }
         
