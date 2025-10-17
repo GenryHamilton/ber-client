@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 import UserService from '../../services/UserService';
 import './AuthDemo.css';
 
 const AuthDemo = () => {
   const { user, loading, error, isAuthenticated, login, register, logout } = useAuth();
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [users, setUsers] = useState([]);
@@ -29,13 +31,13 @@ const AuthDemo = () => {
   };
 
   if (loading) {
-    return <div className="auth-demo-loading">Загрузка...</div>;
+    return <div className="auth-demo-loading">{t('auth.loading')}</div>;
   }
 
   if (!isAuthenticated) {
     return (
       <div className="auth-demo">
-        <h1>Аутентификация</h1>
+        <h1>{t('auth.authentication')}</h1>
         <form className="auth-demo-form">
           <input
             type="email"
@@ -46,17 +48,17 @@ const AuthDemo = () => {
           />
           <input
             type="password"
-            placeholder="Пароль"
+            placeholder={t('auth.password')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="auth-demo-input"
           />
           <div className="auth-demo-buttons">
             <button onClick={handleLogin} className="auth-demo-button">
-              Войти
+              {t('auth.login')}
             </button>
             <button onClick={handleRegister} className="auth-demo-button">
-              Регистрация
+              {t('auth.register')}
             </button>
           </div>
         </form>
@@ -67,22 +69,22 @@ const AuthDemo = () => {
 
   return (
     <div className="auth-demo">
-      <h1>Добро пожаловать!</h1>
+      <h1>{t('auth.welcomeExclamation')}</h1>
       <div className="auth-demo-user">
-        <p>Пользователь авторизован: {user.email}</p>
+        <p>{t('auth.userAuthorized')}: {user.email}</p>
         <p>ID: {user.id}</p>
-        <p>Активирован: {user.isActivated ? 'Да' : 'Нет'}</p>
+        <p>{t('auth.activated')}: {user.isActivated ? t('auth.yes') : t('auth.no')}</p>
       </div>
       <button onClick={logout} className="auth-demo-button">
-        Выйти
+        {t('auth.logout')}
       </button>
       <div className="auth-demo-users">
         <button onClick={getUsers} className="auth-demo-button">
-          Получить список пользователей
+          {t('auth.getUserList')}
         </button>
         {users.length > 0 && (
           <div className="auth-demo-users-list">
-            <h3>Список пользователей:</h3>
+            <h3>{t('auth.userList')}:</h3>
             {users.map((u) => (
               <div key={u.id} className="auth-demo-user-item">
                 {u.email}

@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './MinesPage.css';
 
 const MinesPage = ({ onRegisterModalOpen }) => {
+  const { t } = useTranslation();
   const [minesCount, setMinesCount] = useState(10);
   const [betAmount, setBetAmount] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [revealedCells, setRevealedCells] = useState([]);
   const [gameHash, setGameHash] = useState('no hash');
 
-  // Сетка 5x5 = 25 клеток
+  // 5x5 grid = 25 cells
   const gridSize = 5;
   const totalCells = gridSize * gridSize;
 
-  // Создаем массив клеток
+  // Create cells array
   const cells = Array.from({ length: totalCells }, (_, index) => ({
     id: index,
     isRevealed: revealedCells.includes(index),
-    isMine: false, // В реальной игре это будет определяться сервером
+    isMine: false, // In real game this will be determined by server
     adjacentMines: 0
   }));
 
@@ -38,13 +40,13 @@ const MinesPage = ({ onRegisterModalOpen }) => {
     if (betAmount > 0 && minesCount > 0) {
       setGameStarted(true);
       setRevealedCells([]);
-      // Генерируем новый хеш игры
+      // Generate new game hash
       setGameHash(Math.random().toString(36).substring(2, 15));
     }
   };
 
   const cashOut = () => {
-    // Логика вывода средств
+    // Cashout logic
     setGameStarted(false);
     setRevealedCells([]);
   };
@@ -102,7 +104,7 @@ const MinesPage = ({ onRegisterModalOpen }) => {
                   <label className="control-label">Bet amount</label>
                   <div className="bet-input-container">
                     <div className="currency-icon">
-                      <img src="/images/blackcoin-1a9023c1.svg" alt="Currency" />
+                      <img src="/images/blackcoin-1a9023c1.svg" alt={t('common.currency')} />
                     </div>
                     <input
                       type="number"
@@ -113,7 +115,7 @@ const MinesPage = ({ onRegisterModalOpen }) => {
                       disabled={gameStarted}
                     />
                     <div className="clear-icon">
-                      <img src="/images/copy-icon.svg" alt="Clear" />
+                      <img src="/images/copy-icon.svg" alt={t('common.clear')} />
                     </div>
                   </div>
                   
@@ -129,10 +131,10 @@ const MinesPage = ({ onRegisterModalOpen }) => {
                 </div>
                 
                 <div className="mines-count">
-                  <label className="control-label">Mines amount</label>
+                  <label className="control-label">{t('mines.minesAmount')}</label>
                   <div className="mines-input-container">
                     <div className="mines-icon">
-                      <img src="/images/mines-game-56586a.png" alt="Mines" />
+                      <img src="/images/mines-game-56586a.png" alt={t('games.mines')} />
                     </div>
                     <input
                       type="number"
@@ -177,7 +179,7 @@ const MinesPage = ({ onRegisterModalOpen }) => {
                   onClick={cashOut}
                   disabled={!gameStarted || revealedCells.length === 0}
                 >
-                  <img src="/images/coinflip-tails.png" alt="Cash Out" />
+                  <img src="/images/coinflip-tails.png" alt={t('common.cashOut')} />
                 </button>
               </div>
             </div>
@@ -186,7 +188,7 @@ const MinesPage = ({ onRegisterModalOpen }) => {
         
         <div className="mines-footer">
           <p className="footer-text">
-            Mines is a game of chance. Play responsibly.
+            {t('mines.gameOfChance')}
           </p>
         </div>
       </div>

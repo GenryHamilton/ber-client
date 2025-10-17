@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "main": "PRINCIPAL",
+    "jackpot": "JACKPOT",
+    "coinflip": "COINFLIP",
+    "mines": "MINAS",
+    "plinko": "PLINKO",
+    "upgrader": "MEJORADOR",
+    "pvpMines": "MINAS PVP",
+    "wheel": "RUEDA",
+    "slots": "TRAGAPERRAS",
+    "liveCasino": "CASINO EN VIVO",
+    "tableGames": "JUEGOS DE MESA"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "casinoLogin": "Acceso al Casino",
+    "welcomeBack": "¡Bienvenido de nuevo!",
+    "loggingIn": "Iniciando sesión...",
+    "noAccount": "¿No tienes cuenta? Regístrate",
+    "authentication": "Autenticación",
+    "welcomeExclamation": "¡Bienvenido!",
+    "userAuthorized": "Usuario autorizado",
+    "activated": "Activado",
+    "notActivated": "No activado",
+    "yes": "Sí",
+    "no": "No",
+    "getUserList": "Obtener lista de usuarios",
+    "userList": "Lista de usuarios",
+    "loading": "Cargando...",
+    "premiumCasino": "Casino en línea premium",
+    "allRightsReserved": "Todos los derechos reservados"
+  },
+  "balance": {
+    "balance": "Saldo",
+    "deposit": "Depositar",
+    "withdraw": "Retirar",
+    "refresh": "Actualizar",
+    "available": "Disponible",
+    "amount": "Cantidad"
+  },
+  "wallet": {
+    "wallet": "Monedero",
+    "transactionHistory": "Historial de Transacciones",
+    "loadingTransactions": "Cargando transacciones...",
+    "emptyHistory": "El historial de transacciones está vacío",
+    "depositFunds": "Depositar Fondos",
+    "withdrawFunds": "Retirar Fondos",
+    "depositAmount": "Cantidad de Depósito",
+    "withdrawalAmount": "Cantidad de Retiro",
+    "processing": "Procesando...",
+    "withdrawal": "Retiro"
+  },
+  "payment": {
+    "bankCard": "Tarjeta Bancaria",
+    "cryptocurrency": "Criptomoneda",
+    "eWallet": "Monedero Electrónico",
+    "paymentConfirmation": "Confirmación de Pago",
+    "enterCode": "Ingrese el código de confirmación enviado a su teléfono",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "checking": "Verificando...",
+    "paymentConfirmed": "Pago Confirmado",
+    "paymentCancelled": "Pago Cancelado",
+    "transactionId": "ID de Transacción",
+    "ok": "Aceptar",
+    "fillAllFields": "Complete todos los campos",
+    "enter6DigitCode": "Ingrese el código de confirmación de 6 dígitos"
+  },
+  "common": {
+    "selected": "Seleccionado",
+    "select": "Seleccionar",
+    "ok": "Aceptar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "new": "¡NUEVO!",
+    "register": "Registrarse",
+    "currency": "Moneda",
+    "clear": "Limpiar",
+    "cashOut": "Retirar",
+    "games": "Juegos"
+  },
+  "banner": {
+    "title": "Axion Casino",
+    "description": "¡Estrategia en línea con juegos únicos! ¡Crash, minas, ruleta, doble, monopolio y otros juegos! ¡Bonos diarios y eventos festivos! ¡Prueba y obtén un bono gratis 🔥 Sitio web oficial"
+  },
+  "games": {
+    "plinko": "Plinko",
+    "wheel": "Ruleta", 
+    "jackpot": "Jackpot",
+    "mines": "Minas",
+    "coinflip": "Cara o Cruz",
+    "pvpMines": "Minas PVP",
+    "upgrader": "Mejorador",
+    "slots": "Tragamonedas",
+    "liveCasino": "Casino en Vivo",
+    "tableGames": "Juegos de Mesa",
+    "crash": "Crash",
+    "roulette": "Ruleta",
+    "double": "Doble",
+    "monopoly": "Monopolio"
+  },
+  "footer": {
+    "copyright": "© 2024 Axion Casino. Todos los derechos reservados."
+  },
+    "mines": {
+      "minesAmount": "Cantidad de Minas",
+      "gameOfChance": "Las minas son un juego de azar. Juega responsablemente."
+    },
+  "upgrader": {
+    "coins": "Monedas"
+  },
+  "chat": {
+    "liveChat": "CHAT EN VIVO",
+    "online": "en línea",
+    "typeMessage": "Escribe tu mensaje...",
+    "kycVerificationRequired": "Verificación KYC Requerida",
+    "kycMessage": "Para participar en el chat, necesitas completar la verificación KYC.",
+    "startKyc": "Iniciar KYC",
+    "later": "Más tarde"
+  },
+  "register": {
+    "register": "Registrarse",
+    "name": "Nombre",
+    "enterName": "Ingresa tu nombre",
+    "enterEmail": "Ingresa tu correo electrónico",
+    "enterPassword": "Ingresa tu contraseña",
+    "loading": "Cargando...",
+    "dailyCases": "CASOS DIARIOS",
+    "dailyCasesDescription": "Haz clic aquí para abrir tu caso gratuito diario",
+    "flashCodes": "CÓDIGOS FLASH",
+    "flashCodesDescription": "En nuestras redes sociales",
+    "dailyCase": "Caso Diario",
+    "socialMedia1": "Red Social 1",
+    "socialMedia2": "Red Social 2",
+    "freeCoinsRain": "Lluvia de Monedas Gratis"
+  },
+  "errors": {
+    "networkError": "Error de red. Verifique su conexión a Internet.",
+    "invalidCredentials": "Correo electrónico o contraseña no válidos.",
+    "sessionExpired": "Sesión expirada. Por favor, inicie sesión nuevamente.",
+    "insufficientFunds": "Fondos insuficientes en la cuenta.",
+    "kycRequired": "Verificación de documentos requerida.",
+    "loginError": "Error de inicio de sesión",
+    "registrationError": "Error de registro",
+    "paymentError": "Error de procesamiento de pago",
+    "3dsError": "Error de verificación 3DS"
+  },
+  "success": {
+    "loginSuccess": "Inicio de sesión exitoso",
+    "registerSuccess": "Registro completado con éxito",
+    "depositSuccess": "Depósito completado",
+    "withdrawalSuccess": "Solicitud de retiro enviada",
+    "profileUpdated": "Perfil actualizado",
+    "paymentConfirmed": "Pago confirmado exitosamente por el administrador",
+    "3dsRequired": "Verificación 3DS requerida",
+    "confirmationTimeout": "Tiempo de espera de confirmación expirado",
+    "paymentCancelled": "Pago cancelado por el administrador",
+    "paymentConfirmedAfter3ds": "Pago confirmado exitosamente después de la verificación 3DS",
+    "paymentCancelledAfter3ds": "Pago cancelado por el administrador después de la verificación 3DS"
+  }
+}
+
+

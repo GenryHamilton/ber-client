@@ -1,0 +1,104 @@
+{
+  "nav": {
+    "main": "HAUPT",
+    "jackpot": "JACKPOT",
+    "coinflip": "COINFLIP",
+    "mines": "MINEN",
+    "plinko": "PLINKO",
+    "upgrader": "UPGRADER"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "casinoLogin": "Casino-Anmeldung",
+    "welcomeBack": "Willkommen zurück!",
+    "loggingIn": "Anmeldung läuft...",
+    "noAccount": "Kein Konto? Registrieren",
+    "authentication": "Authentifizierung",
+    "welcomeExclamation": "Willkommen!",
+    "userAuthorized": "Benutzer autorisiert",
+    "activated": "Aktiviert",
+    "notActivated": "Nicht aktiviert",
+    "yes": "Ja",
+    "no": "Nein",
+    "getUserList": "Benutzerliste abrufen",
+    "userList": "Benutzerliste",
+    "loading": "Lädt...",
+    "premiumCasino": "Premium Online Casino",
+    "allRightsReserved": "Alle Rechte vorbehalten"
+  },
+  "balance": {
+    "balance": "Guthaben",
+    "deposit": "Einzahlen",
+    "withdraw": "Abheben",
+    "refresh": "Aktualisieren",
+    "available": "Verfügbar",
+    "amount": "Betrag"
+  },
+  "wallet": {
+    "wallet": "Geldbörse",
+    "transactionHistory": "Transaktionsverlauf",
+    "loadingTransactions": "Transaktionen werden geladen...",
+    "emptyHistory": "Transaktionsverlauf ist leer",
+    "depositFunds": "Geld einzahlen",
+    "withdrawFunds": "Geld abheben",
+    "depositAmount": "Einzahlungsbetrag",
+    "withdrawalAmount": "Abhebungsbetrag",
+    "processing": "Verarbeitung...",
+    "withdrawal": "Abhebung"
+  },
+  "payment": {
+    "bankCard": "Bankkarte",
+    "cryptocurrency": "Kryptowährung",
+    "eWallet": "E-Wallet",
+    "paymentConfirmation": "Zahlungsbestätigung",
+    "enterCode": "Geben Sie den Bestätigungscode ein, der an Ihr Telefon gesendet wurde",
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "checking": "Überprüfung...",
+    "paymentConfirmed": "Zahlung bestätigt",
+    "paymentCancelled": "Zahlung storniert",
+    "transactionId": "Transaktions-ID",
+    "ok": "OK",
+    "fillAllFields": "Alle Felder ausfüllen",
+    "enter6DigitCode": "6-stelligen Bestätigungscode eingeben"
+  },
+  "common": {
+    "selected": "Ausgewählt",
+    "select": "Auswählen",
+    "ok": "OK",
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "success": "Erfolg"
+  },
+  "errors": {
+    "networkError": "Netzwerkfehler. Überprüfen Sie Ihre Internetverbindung.",
+    "invalidCredentials": "Ungültige E-Mail oder Passwort.",
+    "sessionExpired": "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
+    "insufficientFunds": "Unzureichendes Guthaben auf dem Konto.",
+    "kycRequired": "Dokumentenverifizierung erforderlich.",
+    "loginError": "Anmeldefehler",
+    "registrationError": "Registrierungsfehler",
+    "paymentError": "Zahlungsverarbeitungsfehler",
+    "3dsError": "3DS-Verifizierungsfehler"
+  },
+  "success": {
+    "loginSuccess": "Anmeldung erfolgreich",
+    "registerSuccess": "Registrierung erfolgreich abgeschlossen",
+    "depositSuccess": "Einzahlung abgeschlossen",
+    "withdrawalSuccess": "Abhebungsanfrage gesendet",
+    "profileUpdated": "Profil aktualisiert",
+    "paymentConfirmed": "Zahlung erfolgreich vom Administrator bestätigt",
+    "3dsRequired": "3DS-Verifizierung erforderlich",
+    "confirmationTimeout": "Bestätigungs-Timeout abgelaufen",
+    "paymentCancelled": "Zahlung vom Administrator storniert",
+    "paymentConfirmedAfter3ds": "Zahlung nach 3DS-Verifizierung erfolgreich bestätigt",
+    "paymentCancelledAfter3ds": "Zahlung vom Administrator nach 3DS-Verifizierung storniert"
+  }
+}
+
+
+

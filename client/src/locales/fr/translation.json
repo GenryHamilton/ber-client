@@ -1,0 +1,104 @@
+{
+  "nav": {
+    "main": "PRINCIPAL",
+    "jackpot": "JACKPOT",
+    "coinflip": "COINFLIP",
+    "mines": "MINES",
+    "plinko": "PLINKO",
+    "upgrader": "AMÉLIORATEUR"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion",
+    "email": "Email",
+    "password": "Mot de passe",
+    "casinoLogin": "Connexion au casino",
+    "welcomeBack": "Bon retour!",
+    "loggingIn": "Connexion en cours...",
+    "noAccount": "Pas de compte? S'inscrire",
+    "authentication": "Authentification",
+    "welcomeExclamation": "Bienvenue!",
+    "userAuthorized": "Utilisateur autorisé",
+    "activated": "Activé",
+    "notActivated": "Non activé",
+    "yes": "Oui",
+    "no": "Non",
+    "getUserList": "Obtenir la liste des utilisateurs",
+    "userList": "Liste des utilisateurs",
+    "loading": "Chargement...",
+    "premiumCasino": "Casino en ligne premium",
+    "allRightsReserved": "Tous droits réservés"
+  },
+  "balance": {
+    "balance": "Solde",
+    "deposit": "Dépôt",
+    "withdraw": "Retrait",
+    "refresh": "Actualiser",
+    "available": "Disponible",
+    "amount": "Montant"
+  },
+  "wallet": {
+    "wallet": "Portefeuille",
+    "transactionHistory": "Historique des transactions",
+    "loadingTransactions": "Chargement des transactions...",
+    "emptyHistory": "L'historique des transactions est vide",
+    "depositFunds": "Déposer des fonds",
+    "withdrawFunds": "Retirer des fonds",
+    "depositAmount": "Montant du dépôt",
+    "withdrawalAmount": "Montant du retrait",
+    "processing": "Traitement...",
+    "withdrawal": "Retrait"
+  },
+  "payment": {
+    "bankCard": "Carte bancaire",
+    "cryptocurrency": "Cryptomonnaie",
+    "eWallet": "Portefeuille électronique",
+    "paymentConfirmation": "Confirmation de paiement",
+    "enterCode": "Entrez le code de confirmation envoyé à votre téléphone",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "checking": "Vérification...",
+    "paymentConfirmed": "Paiement confirmé",
+    "paymentCancelled": "Paiement annulé",
+    "transactionId": "ID de transaction",
+    "ok": "OK",
+    "fillAllFields": "Remplir tous les champs",
+    "enter6DigitCode": "Entrez le code de confirmation à 6 chiffres"
+  },
+  "common": {
+    "selected": "Sélectionné",
+    "select": "Sélectionner",
+    "ok": "OK",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès"
+  },
+  "errors": {
+    "networkError": "Erreur réseau. Vérifiez votre connexion Internet.",
+    "invalidCredentials": "Email ou mot de passe invalide.",
+    "sessionExpired": "Session expirée. Veuillez vous reconnecter.",
+    "insufficientFunds": "Fonds insuffisants sur le compte.",
+    "kycRequired": "Vérification des documents requise.",
+    "loginError": "Erreur de connexion",
+    "registrationError": "Erreur d'inscription",
+    "paymentError": "Erreur de traitement du paiement",
+    "3dsError": "Erreur de vérification 3DS"
+  },
+  "success": {
+    "loginSuccess": "Connexion réussie",
+    "registerSuccess": "Inscription réussie",
+    "depositSuccess": "Dépôt effectué",
+    "withdrawalSuccess": "Demande de retrait envoyée",
+    "profileUpdated": "Profil mis à jour",
+    "paymentConfirmed": "Paiement confirmé avec succès par l'administrateur",
+    "3dsRequired": "Vérification 3DS requise",
+    "confirmationTimeout": "Délai de confirmation expiré",
+    "paymentCancelled": "Paiement annulé par l'administrateur",
+    "paymentConfirmedAfter3ds": "Paiement confirmé avec succès après la vérification 3DS",
+    "paymentCancelledAfter3ds": "Paiement annulé par l'administrateur après la vérification 3DS"
+  }
+}
+
+
+

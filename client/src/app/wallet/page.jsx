@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useBalance } from '../../hooks/useBalance';
+import { useTranslation } from 'react-i18next';
 import Button from '../../components/ui/Button';
 import Modal from '../../components/ui/Modal';
 import PaymentCard from '../../components/payments/PaymentCard';
@@ -18,6 +19,7 @@ const WalletPage = () => {
     withdraw,
     refreshBalance 
   } = useBalance();
+  const { t } = useTranslation();
   
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
@@ -28,20 +30,20 @@ const WalletPage = () => {
   const paymentMethods = [
     {
       id: PAYMENT_METHODS.CARD,
-      title: 'Банковская карта',
-      description: 'Visa, MasterCard, МИР',
+      title: t('payment.bankCard'),
+      description: 'Visa, MasterCard, MIR',
       icon: '💳'
     },
     {
       id: PAYMENT_METHODS.CRYPTO,
-      title: 'Криптовалюта',
+      title: t('payment.cryptocurrency'),
       description: 'Bitcoin, Ethereum, USDT',
       icon: '₿'
     },
     {
       id: PAYMENT_METHODS.E_WALLET,
-      title: 'Электронный кошелек',
-      description: 'Qiwi, WebMoney, ЮMoney',
+      title: t('payment.eWallet'),
+      description: 'Qiwi, WebMoney, YuMoney',
       icon: '💰'
     }
   ];
@@ -75,22 +77,22 @@ const WalletPage = () => {
   };
 
   if (loading) {
-    return <Loader overlay text="Загрузка кошелька..." />;
+    return <Loader overlay text={t('auth.loading')} />;
   }
 
   return (
     <div className="wallet-page">
       <div className="container">
         <div className="wallet-header">
-          <h1>Кошелек</h1>
+          <h1>{t('wallet.wallet')}</h1>
           <Button onClick={refreshBalance} variant="secondary" size="small">
-            Обновить
+            {t('balance.refresh')}
           </Button>
         </div>
 
         <div className="wallet-balance-card">
           <div className="balance-info">
-            <h2>Баланс</h2>
+            <h2>{t('balance.balance')}</h2>
             <div className="balance-amount">
               {formatCurrency(balance)}
             </div>
@@ -101,23 +103,23 @@ const WalletPage = () => {
               variant="primary"
               size="large"
             >
-              Пополнить
+              {t('balance.deposit')}
             </Button>
             <Button 
               onClick={() => setShowWithdrawModal(true)}
               variant="secondary"
               size="large"
             >
-              Вывести
+              {t('balance.withdraw')}
             </Button>
           </div>
         </div>
 
         <div className="wallet-transactions">
-          <h3>История транзакций</h3>
+          <h3>{t('wallet.transactionHistory')}</h3>
           
           {transactionsLoading ? (
-            <Loader text="Загрузка транзакций..." />
+            <Loader text={t('wallet.loadingTransactions')} />
           ) : transactions.length > 0 ? (
             <div className="transactions-list">
               {transactions.map((transaction) => (
@@ -125,7 +127,7 @@ const WalletPage = () => {
                   <div className="transaction-info">
                     <div className="transaction-type">
                       {transaction.type === 'deposit' ? '↗️' : '↙️'} 
-                      {transaction.type === 'deposit' ? 'Пополнение' : 'Вывод'}
+                      {transaction.type === 'deposit' ? t('balance.deposit') : t('wallet.withdrawal')}
                     </div>
                     <div className="transaction-date">
                       {formatDateTime(transaction.createdAt)}
@@ -145,7 +147,7 @@ const WalletPage = () => {
             </div>
           ) : (
             <div className="no-transactions">
-              <p>История транзакций пуста</p>
+              <p>{t('wallet.emptyHistory')}</p>
             </div>
           )}
         </div>
@@ -154,7 +156,7 @@ const WalletPage = () => {
         <Modal
           isOpen={showDepositModal}
           onClose={() => setShowDepositModal(false)}
-          title="Пополнение счета"
+          title={t('wallet.depositFunds')}
           size="medium"
         >
           <div className="payment-modal">
@@ -172,7 +174,7 @@ const WalletPage = () => {
             </div>
             
             <div className="amount-input">
-              <label>Сумма пополнения</label>
+              <label>{t('wallet.depositAmount')}</label>
               <input
                 type="number"
                 value={amount}
@@ -192,7 +194,7 @@ const WalletPage = () => {
                 size="large"
                 className="w-full"
               >
-                {operationLoading ? 'Обработка...' : 'Пополнить'}
+                {operationLoading ? t('wallet.processing') : t('balance.deposit')}
               </Button>
             </div>
           </div>
@@ -202,7 +204,7 @@ const WalletPage = () => {
         <Modal
           isOpen={showWithdrawModal}
           onClose={() => setShowWithdrawModal(false)}
-          title="Вывод средств"
+          title={t('wallet.withdrawFunds')}
           size="medium"
         >
           <div className="payment-modal">
@@ -220,7 +222,7 @@ const WalletPage = () => {
             </div>
             
             <div className="amount-input">
-              <label>Сумма вывода</label>
+              <label>{t('wallet.withdrawalAmount')}</label>
               <input
                 type="number"
                 value={amount}
@@ -231,7 +233,7 @@ const WalletPage = () => {
                 max={balance}
               />
               <div className="available-balance">
-                Доступно: {formatCurrency(balance)}
+                {t('balance.available')}: {formatCurrency(balance)}
               </div>
             </div>
             
@@ -243,7 +245,7 @@ const WalletPage = () => {
                 size="large"
                 className="w-full"
               >
-                {operationLoading ? 'Обработка...' : 'Вывести'}
+                {operationLoading ? t('wallet.processing') : t('balance.withdraw')}
               </Button>
             </div>
           </div>

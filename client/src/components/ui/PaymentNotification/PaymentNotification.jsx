@@ -1,8 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './PaymentNotification.css';
 import Modal from '../Modal/Modal';
 
 const PaymentNotification = ({ isOpen, onClose, success, message, transactionId }) => {
+  const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} onClose={onClose} showCloseButton={false} size="small">
       <div className="payment-notification">
@@ -22,13 +24,13 @@ const PaymentNotification = ({ isOpen, onClose, success, message, transactionId 
 
         <div className="notification-content">
           <h2 className="notification-title">
-            {success ? 'Платеж подтвержден' : 'Платеж отменен'}
+            {success ? t('payment.paymentConfirmed') : t('payment.paymentCancelled')}
           </h2>
           <p className="notification-message">{message}</p>
           
           {transactionId && (
             <div className="transaction-info">
-              <span className="transaction-label">ID транзакции:</span>
+              <span className="transaction-label">{t('payment.transactionId')}:</span>
               <span className="transaction-id">{transactionId}</span>
             </div>
           )}
@@ -38,7 +40,7 @@ const PaymentNotification = ({ isOpen, onClose, success, message, transactionId 
           className={`notification-button ${success ? 'success' : 'error'}`}
           onClick={onClose}
         >
-          Понятно
+          {t('payment.ok')}
         </button>
       </div>
     </Modal>

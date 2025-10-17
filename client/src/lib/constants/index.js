@@ -75,22 +75,22 @@ export const STORAGE_KEYS = {
   GAME_SETTINGS: 'game_settings',
 };
 
-// Error Messages
+// Error Messages - use translation keys
 export const ERROR_MESSAGES = {
-  NETWORK_ERROR: 'Ошибка сети. Проверьте подключение к интернету.',
-  INVALID_CREDENTIALS: 'Неверный email или пароль.',
-  SESSION_EXPIRED: 'Сессия истекла. Войдите в систему заново.',
-  INSUFFICIENT_FUNDS: 'Недостаточно средств на счете.',
-  KYC_REQUIRED: 'Требуется верификация документов.',
+  NETWORK_ERROR: 'errors.networkError',
+  INVALID_CREDENTIALS: 'errors.invalidCredentials',
+  SESSION_EXPIRED: 'errors.sessionExpired',
+  INSUFFICIENT_FUNDS: 'errors.insufficientFunds',
+  KYC_REQUIRED: 'errors.kycRequired',
 };
 
-// Success Messages
+// Success Messages - use translation keys
 export const SUCCESS_MESSAGES = {
-  LOGIN_SUCCESS: 'Вход выполнен успешно',
-  REGISTER_SUCCESS: 'Регистрация завершена успешно',
-  DEPOSIT_SUCCESS: 'Пополнение счета выполнено',
-  WITHDRAWAL_SUCCESS: 'Запрос на вывод средств отправлен',
-  PROFILE_UPDATED: 'Профиль обновлен',
+  LOGIN_SUCCESS: 'success.loginSuccess',
+  REGISTER_SUCCESS: 'success.registerSuccess',
+  DEPOSIT_SUCCESS: 'success.depositSuccess',
+  WITHDRAWAL_SUCCESS: 'success.withdrawalSuccess',
+  PROFILE_UPDATED: 'success.profileUpdated',
 };
 
 

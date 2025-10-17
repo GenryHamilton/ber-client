@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 import './page.css';
 import JackpotPage from '../components/JackpotPage';
 import CoinflipPage from '../components/CoinflipPage';
@@ -10,9 +11,11 @@ import RegisterPage from '../components/RegisterPage';
 import DepositPage from './deposit';
 import WithdrawPage from './withdraw';
 import PaymentCardPage from './payment-card';
+import LanguageSelector from '../components/ui/LanguageSelector';
 
 const HomePage = () => {
   const { user, isAuthenticated, logout } = useAuth();
+  const { t } = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState('main');
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -77,7 +80,7 @@ const HomePage = () => {
                 <rect x="12" y="12" width="6" height="6" stroke="#FFC701" strokeWidth="1.25"/>
               </svg>
             </div>
-            <span className="nav-text">MAIN</span>
+            <span className="nav-text">{t('nav.main')}</span>
           </div>
           
           <div className={`nav-item ${currentPage === 'jackpot' ? 'active' : ''}`} onClick={() => setCurrentPage('jackpot')}>
@@ -88,7 +91,7 @@ const HomePage = () => {
                 <path d="M13 1L25 12L13 12L13 25" stroke="#2D3660" strokeWidth="1.5"/>
               </svg>
             </div>
-            <span className="nav-text">JACKPOT</span>
+            <span className="nav-text">{t('nav.jackpot')}</span>
           </div>
           
           <div className={`nav-item ${currentPage === 'coinflip' ? 'active' : ''}`} onClick={() => setCurrentPage('coinflip')}>
@@ -99,7 +102,7 @@ const HomePage = () => {
                 <path d="M2 21L24 21" stroke="#2D3660" strokeWidth="1.34"/>
               </svg>
             </div>
-            <span className="nav-text">COINFLIP</span>
+            <span className="nav-text">{t('nav.coinflip')}</span>
           </div>
           
           <div className={`nav-item ${currentPage === 'mines' ? 'active' : ''}`} onClick={() => setCurrentPage('mines')}>
@@ -110,7 +113,7 @@ const HomePage = () => {
                 <path d="M22 8L8 22" stroke="#4D5B97" strokeWidth="1.32"/>
               </svg>
             </div>
-            <span className="nav-text">MINES</span>
+            <span className="nav-text">{t('nav.mines')}</span>
           </div>
           
           <div className={`nav-item ${currentPage === 'plinko' ? 'active' : ''}`} onClick={() => setCurrentPage('plinko')}>
@@ -121,7 +124,7 @@ const HomePage = () => {
                 <circle cx="17" cy="17" r="4" stroke="#3B436B" strokeWidth="1.625"/>
               </svg>
             </div>
-            <span className="nav-text">PLINKO</span>
+            <span className="nav-text">{t('nav.plinko')}</span>
           </div>
           
           
@@ -164,25 +167,7 @@ const HomePage = () => {
           </div>
           
           <div className="header-actions">
-            <div className="language-selector">
-              <div className="flag-icon">
-                <svg width="25" height="18" viewBox="0 0 25 18" fill="none">
-                  <rect width="25" height="18" fill="#E6E7E8"/>
-                  <rect y="15.77" width="25" height="1.32" fill="#DA2128"/>
-                  <rect y="13.13" width="25" height="1.32" fill="#DA2128"/>
-                  <rect y="10.5" width="25" height="1.32" fill="#DA2128"/>
-                  <rect y="7.87" width="25" height="1.32" fill="#DA2128"/>
-                  <rect y="5.24" width="25" height="1.32" fill="#DA2128"/>
-                  <rect y="2.61" width="25" height="1.32" fill="#DA2128"/>
-                  <rect y="0" width="25" height="1.32" fill="#DA2128"/>
-                  <rect width="12.76" height="9.2" fill="#006BB5"/>
-                </svg>
-              </div>
-              <span>EN</span>
-              <svg width="7" height="13" viewBox="0 0 7 13" fill="none">
-                <path d="M1 1L6 6.5L1 12" stroke="#48488B" strokeWidth="1"/>
-              </svg>
-            </div>
+            <LanguageSelector />
             <div className="auth-actions">
               {isAuthenticated ? (
                 <div className="user-menu-container" ref={userMenuRef}>
@@ -199,18 +184,18 @@ const HomePage = () => {
                     <div className="user-dropdown-menu">
                       <div className="user-info">
                         <p className="user-email">{user?.email}</p>
-                        <p className="user-status">{user?.isActivated ? 'Активирован' : 'Не активирован'}</p>
+                        <p className="user-status">{user?.isActivated ? t('auth.activated') : t('auth.notActivated')}</p>
                       </div>
                       <button className="logout-btn" onClick={() => { logout(); setShowUserMenu(false); }}>
-                        Выйти
+                        {t('auth.logout')}
                       </button>
                     </div>
                   )}
                 </div>
               ) : (
                 <>
-                  <button className="auth-btn auth-btn-secondary" onClick={handleOpenLogin}>Login</button>
-                  <button className="auth-btn auth-btn-primary" onClick={handleOpenRegister}>Register</button>
+                  <button className="auth-btn auth-btn-secondary" onClick={handleOpenLogin}>{t('auth.login')}</button>
+                  <button className="auth-btn auth-btn-primary" onClick={handleOpenRegister}>{t('auth.register')}</button>
                 </>
               )}
             </div>
@@ -228,13 +213,13 @@ const HomePage = () => {
           
           {isAuthenticated && (
             <div className="user-balance">
-              <div className="balance-label">Баланс</div>
+              <div className="balance-label">{t('balance.balance')}</div>
               <div className="balance-amount">
                 <span className="balance-value">0.0</span>
                 <span className="balance-currency">AXION</span>
                 <button 
                   className="balance-mini-btn balance-mini-btn-deposit" 
-                  title="Пополнить"
+                  title={t('balance.deposit')}
                   onClick={() => setCurrentPage('deposit')}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -245,7 +230,7 @@ const HomePage = () => {
                 </button>
                 <button 
                   className="balance-mini-btn balance-mini-btn-withdraw" 
-                  title="Вывести"
+                  title={t('balance.withdraw')}
                   onClick={() => setCurrentPage('withdraw')}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -263,7 +248,7 @@ const HomePage = () => {
           {/* Mobile Menu */}
           <div className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`}>
             <div className="mobile-menu-header">
-              <h2>Games</h2>
+              <h2>{t('common.games')}</h2>
               <button 
                 className="close-menu-btn"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -284,7 +269,7 @@ const HomePage = () => {
                     <rect x="20" y="20" width="8" height="8" stroke="#FFC701" strokeWidth="2"/>
                   </svg>
                 </div>
-                <span className="mobile-menu-text">MAIN</span>
+                <span className="mobile-menu-text">{t('nav.main')}</span>
               </div>
               
               <div className={`mobile-menu-item ${currentPage === 'jackpot' ? 'active' : ''}`} onClick={() => {setCurrentPage('jackpot'); setIsMobileMenuOpen(false);}}>
@@ -295,7 +280,7 @@ const HomePage = () => {
                     <path d="M16 4L28 16L16 16L16 28" stroke="#2D3660" strokeWidth="2"/>
                   </svg>
                 </div>
-                <span className="mobile-menu-text">JACKPOT</span>
+                <span className="mobile-menu-text">{t('nav.jackpot')}</span>
               </div>
               
               <div className={`mobile-menu-item ${currentPage === 'coinflip' ? 'active' : ''}`} onClick={() => {setCurrentPage('coinflip'); setIsMobileMenuOpen(false);}}>
@@ -306,7 +291,7 @@ const HomePage = () => {
                     <path d="M4 20L28 20" stroke="#2D3660" strokeWidth="2"/>
                   </svg>
                 </div>
-                <span className="mobile-menu-text">COINFLIP</span>
+                <span className="mobile-menu-text">{t('nav.coinflip')}</span>
                 <span className="mobile-menu-value">$ 4094</span>
               </div>
               
@@ -318,7 +303,7 @@ const HomePage = () => {
                     <path d="M22 8L8 22" stroke="#4D5B97" strokeWidth="1.32"/>
                   </svg>
                 </div>
-                <span className="mobile-menu-text">MINES</span>
+                <span className="mobile-menu-text">{t('nav.mines')}</span>
               </div>
               
               <div className={`mobile-menu-item ${currentPage === 'plinko' ? 'active' : ''}`} onClick={() => {setCurrentPage('plinko'); setIsMobileMenuOpen(false);}}>
@@ -329,7 +314,7 @@ const HomePage = () => {
                     <circle cx="20" cy="20" r="6" stroke="#3B436B" strokeWidth="2"/>
                   </svg>
                 </div>
-                <span className="mobile-menu-text">PLINKO</span>
+                <span className="mobile-menu-text">{t('nav.plinko')}</span>
               </div>
               
               
@@ -351,8 +336,8 @@ const HomePage = () => {
                     <path d="M16 12L22 15L22 19L16 22L10 19L10 15L16 12Z" stroke="#4D5B97" strokeWidth="2"/>
                   </svg>
                 </div>
-                <span className="mobile-menu-text">UPGRADER</span>
-                <span className="mobile-menu-badge">NEW!</span>
+                <span className="mobile-menu-text">{t('nav.upgrader')}</span>
+                <span className="mobile-menu-badge">{t('common.new')}</span>
               </div>
               
               <div className="mobile-menu-item">
@@ -362,9 +347,9 @@ const HomePage = () => {
                     <path d="M16 10L22 13L22 17L16 20L10 17L10 13L16 10Z" stroke="#4D5B97" strokeWidth="2"/>
                   </svg>
                 </div>
-                <span className="mobile-menu-text">PVP MINES</span>
+                <span className="mobile-menu-text">{t('nav.pvpMines')}</span>
                 <span className="mobile-menu-value">$ 0</span>
-                <span className="mobile-menu-badge">NEW!</span>
+                <span className="mobile-menu-badge">{t('common.new')}</span>
               </div>
             </div>
           </div>
@@ -376,11 +361,11 @@ const HomePage = () => {
                 <div className="game-banner">
                   <div className="banner-content">
                     <div className="banner-text">
-                      <h1>Axion Casino</h1>
-                      <p>Online strategy with unique games! Crash, mines, roulette, double, monopoly and other games! Daily bonuses and holiday events! Try and get a free bonus 🔥 Official website</p>
+                      <h1>{t('banner.title')}</h1>
+                      <p>{t('banner.description')}</p>
                     </div>
                     <div className="banner-actions">
-                      <button className="register-btn" onClick={() => setIsRegisterModalOpen(true)}>Register</button>
+                      <button className="register-btn" onClick={() => setIsRegisterModalOpen(true)}>{t('common.register')}</button>
                     </div>
                   </div>
                 </div>
@@ -388,37 +373,37 @@ const HomePage = () => {
                 <div className="games-grid">
                   <div className="game-card active" onClick={() => setCurrentPage('plinko')}>
                     <div className="game-image">
-                      <img src="/images/plinko-game-56586a.png" alt="Plinko" />
+                      <img src="/images/plinko-game-56586a.png" alt={t('games.plinko')} />
                     </div>
                   </div>
                   
                   <div className="game-card">
                     <div className="game-image">
-                      <img src="/images/wheel-game-56586a.png" alt="Wheel" />
+                      <img src="/images/wheel-game-56586a.png" alt={t('games.wheel')} />
                     </div>
                   </div>
                   
                   <div className="game-card" onClick={() => setCurrentPage('jackpot')}>
                     <div className="game-image">
-                      <img src="/images/jackpot-game-56586a.png" alt="Jackpot" />
+                      <img src="/images/jackpot-game-56586a.png" alt={t('games.jackpot')} />
                     </div>
                   </div>
                   
                   <div className="game-card">
                     <div className="game-image">
-                      <img src="/images/mines-game-56586a.png" alt="Mines" />
+                      <img src="/images/mines-game-56586a.png" alt={t('games.mines')} />
                     </div>
                   </div>
                   
                   <div className="game-card">
                     <div className="game-image">
-                      <img src="/images/coinflip-game-56586a.png" alt="Coinflip" />
+                      <img src="/images/coinflip-game-56586a.png" alt={t('games.coinflip')} />
                     </div>
                   </div>
                   
                   <div className="game-card">
                     <div className="game-image">
-                      <img src="/images/pvp-mines-game-56586a.png" alt="PVP Mines" />
+                      <img src="/images/pvp-mines-game-56586a.png" alt={t('games.pvpMines')} />
                     </div>
                   </div>
                   
@@ -454,9 +439,9 @@ const HomePage = () => {
       {/* Right Chat Panel */}
       <div className="chat-panel">
         <div className="chat-header">
-          <h3>LIVE CHAT</h3>
+          <h3>{t('chat.liveChat')}</h3>
           <div className="online-indicator">
-            <span>1112 online</span>
+            <span>1112 {t('chat.online')}</span>
             <div className="status-dot"></div>
             <div className="status-dot"></div>
           </div>
@@ -467,14 +452,14 @@ const HomePage = () => {
           <div className="kyc-modal-overlay">
             <div className="kyc-modal">
               <div className="kyc-modal-header">
-                <h4>KYC Verification Required</h4>
+                <h4>{t('chat.kycVerificationRequired')}</h4>
                 <button className="kyc-close-btn">×</button>
               </div>
               <div className="kyc-modal-content">
-                <p>To participate in chat, you need to complete KYC verification.</p>
+                <p>{t('chat.kycMessage')}</p>
                 <div className="kyc-modal-actions">
-                  <button className="kyc-btn kyc-btn-primary" onClick={handleStartKYC}>Start KYC</button>
-                  <button className="kyc-btn kyc-btn-secondary">Later</button>
+                  <button className="kyc-btn kyc-btn-primary" onClick={handleStartKYC}>{t('chat.startKyc')}</button>
+                  <button className="kyc-btn kyc-btn-secondary">{t('chat.later')}</button>
                 </div>
               </div>
             </div>
@@ -611,7 +596,7 @@ const HomePage = () => {
         
         <div className="chat-input">
           <div className="input-field">
-            <input type="text" placeholder="Type your message..." />
+            <input type="text" placeholder={t('chat.typeMessage')} />
             <button className="send-button">
               <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
                 <path d="M11 1L21 11L11 21L1 11L11 1Z" fill="white"/>
@@ -632,7 +617,7 @@ const HomePage = () => {
             <a href="#" className="footer-link">Support</a>
           </div>
           <div className="footer-copyright">
-            <span>© 2024 Axion Casino. All rights reserved.</span>
+            <span>{t('footer.copyright')}</span>
           </div>
         </div>
       </div>

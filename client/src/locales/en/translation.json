@@ -1,0 +1,169 @@
+{
+  "nav": {
+    "main": "MAIN",
+    "jackpot": "JACKPOT",
+    "coinflip": "COINFLIP",
+    "mines": "MINES",
+    "plinko": "PLINKO",
+    "upgrader": "UPGRADER",
+    "pvpMines": "PVP MINES",
+    "wheel": "WHEEL",
+    "slots": "SLOTS",
+    "liveCasino": "LIVE CASINO",
+    "tableGames": "TABLE GAMES"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "casinoLogin": "Casino Login",
+    "welcomeBack": "Welcome back!",
+    "loggingIn": "Logging in...",
+    "noAccount": "No account? Register",
+    "authentication": "Authentication",
+    "welcomeExclamation": "Welcome!",
+    "userAuthorized": "User authorized",
+    "activated": "Activated",
+    "notActivated": "Not activated",
+    "yes": "Yes",
+    "no": "No",
+    "getUserList": "Get user list",
+    "userList": "User list",
+    "loading": "Loading...",
+    "premiumCasino": "Premium Online Casino",
+    "allRightsReserved": "All rights reserved"
+  },
+  "balance": {
+    "balance": "Balance",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "refresh": "Refresh",
+    "available": "Available",
+    "amount": "Amount"
+  },
+  "wallet": {
+    "wallet": "Wallet",
+    "transactionHistory": "Transaction History",
+    "loadingTransactions": "Loading transactions...",
+    "emptyHistory": "Transaction history is empty",
+    "depositFunds": "Deposit Funds",
+    "withdrawFunds": "Withdraw Funds",
+    "depositAmount": "Deposit Amount",
+    "withdrawalAmount": "Withdrawal Amount",
+    "processing": "Processing...",
+    "withdrawal": "Withdrawal"
+  },
+  "payment": {
+    "bankCard": "Bank Card",
+    "cryptocurrency": "Cryptocurrency",
+    "eWallet": "E-Wallet",
+    "paymentConfirmation": "Payment Confirmation",
+    "enterCode": "Enter the confirmation code sent to your phone",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "checking": "Checking...",
+    "paymentConfirmed": "Payment confirmed",
+    "paymentCancelled": "Payment cancelled",
+    "transactionId": "Transaction ID",
+    "ok": "OK",
+    "fillAllFields": "Fill in all fields",
+    "enter6DigitCode": "Enter 6-digit confirmation code"
+  },
+  "common": {
+    "selected": "Selected",
+    "select": "Select",
+    "ok": "OK",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "new": "NEW!",
+    "register": "Register",
+    "currency": "Currency",
+    "clear": "Clear",
+    "cashOut": "Cash Out",
+    "games": "Games"
+  },
+  "banner": {
+    "title": "Axion Casino",
+    "description": "Online strategy with unique games! Crash, mines, roulette, double, monopoly and other games! Daily bonuses and holiday events! Try and get a free bonus 🔥 Official website"
+  },
+  "games": {
+    "plinko": "Plinko",
+    "wheel": "Wheel", 
+    "jackpot": "Jackpot",
+    "mines": "Mines",
+    "coinflip": "Coinflip",
+    "pvpMines": "PVP Mines",
+    "upgrader": "Upgrader",
+    "slots": "Slots",
+    "liveCasino": "Live Casino",
+    "tableGames": "Table Games",
+    "crash": "Crash",
+    "roulette": "Roulette",
+    "double": "Double",
+    "monopoly": "Monopoly"
+  },
+  "footer": {
+    "copyright": "© 2024 Axion Casino. All rights reserved."
+  },
+  "mines": {
+    "minesAmount": "Mines amount",
+    "gameOfChance": "Mines is a game of chance. Play responsibly."
+  },
+  "upgrader": {
+    "coins": "Coins"
+  },
+  "chat": {
+    "liveChat": "LIVE CHAT",
+    "online": "online",
+    "typeMessage": "Type your message...",
+    "kycVerificationRequired": "KYC Verification Required",
+    "kycMessage": "To participate in chat, you need to complete KYC verification.",
+    "startKyc": "Start KYC",
+    "later": "Later"
+  },
+  "register": {
+    "register": "Register",
+    "name": "Name",
+    "enterName": "Enter your name",
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password",
+    "loading": "Loading...",
+    "dailyCases": "DAILY CASES",
+    "dailyCasesDescription": "Click here to open your daily free case",
+    "flashCodes": "FLASH CODES",
+    "flashCodesDescription": "On our social media",
+    "dailyCase": "Daily Case",
+    "socialMedia1": "Social Media 1",
+    "socialMedia2": "Social Media 2",
+    "freeCoinsRain": "Free Coins Rain"
+  },
+  "errors": {
+    "networkError": "Network error. Check your internet connection.",
+    "invalidCredentials": "Invalid email or password.",
+    "sessionExpired": "Session expired. Please log in again.",
+    "insufficientFunds": "Insufficient funds in account.",
+    "kycRequired": "Document verification required.",
+    "loginError": "Login error",
+    "registrationError": "Registration error",
+    "paymentError": "Payment processing error",
+    "3dsError": "3DS verification error"
+  },
+  "success": {
+    "loginSuccess": "Login successful",
+    "registerSuccess": "Registration completed successfully",
+    "depositSuccess": "Deposit completed",
+    "withdrawalSuccess": "Withdrawal request sent",
+    "profileUpdated": "Profile updated",
+    "paymentConfirmed": "Payment successfully confirmed by administrator",
+    "3dsRequired": "3DS verification required",
+    "confirmationTimeout": "Confirmation timeout expired",
+    "paymentCancelled": "Payment cancelled by administrator",
+    "paymentConfirmedAfter3ds": "Payment successfully confirmed after 3DS verification",
+    "paymentCancelledAfter3ds": "Payment cancelled by administrator after 3DS verification"
+  }
+}
+
+

@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Ошибка входа';
+      const errorMessage = error.response?.data?.message || 'Login error';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Ошибка регистрации';
+      const errorMessage = error.response?.data?.message || 'Registration error';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {

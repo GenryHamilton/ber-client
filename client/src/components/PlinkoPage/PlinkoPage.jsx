@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import './PlinkoPage.css';
 
 const PlinkoPage = () => {
+  const { t } = useTranslation();
   const [betAmount, setBetAmount] = useState(0);
   const [rows, setRows] = useState(10);
   const [difficulty, setDifficulty] = useState('normal');
@@ -10,7 +12,7 @@ const PlinkoPage = () => {
   const [multipliers, setMultipliers] = useState([]);
   const [gameHistory, setGameHistory] = useState([]);
 
-  // Множители для разных уровней сложности
+  // Multipliers for different difficulty levels
   const getMultipliers = (rows, difficulty) => {
     const baseMultipliers = {
       easy: [21.1, 4.8, 1.92, 1.34, 0.58, 0.38, 0.58, 1.34, 1.92, 4.8, 21.1],
@@ -29,7 +31,7 @@ const PlinkoPage = () => {
     
     setIsPlaying(true);
     
-    // Симуляция игры
+    // Game simulation
     setTimeout(() => {
       const randomSlot = Math.floor(Math.random() * multipliers.length);
       const winAmount = betAmount * multipliers[randomSlot];
@@ -55,7 +57,7 @@ const PlinkoPage = () => {
   return (
     <div className="plinko-page">
       <div className="plinko-container">
-        {/* Панель управления */}
+        {/* Control Panel */}
         <div className="plinko-controls">
           <div className="control-section">
             <div className="control-group">
@@ -161,11 +163,11 @@ const PlinkoPage = () => {
           </div>
         </div>
 
-        {/* Игровое поле */}
+        {/* Game Field */}
         <div className="plinko-game-area">
           <div className="plinko-board">
             <div className="plinko-pins">
-              {/* Генерируем пины для сетки */}
+              {/* Generate pins for grid */}
               {Array.from({ length: rows }, (_, rowIndex) => (
                 <div key={rowIndex} className="pin-row">
                   {Array.from({ length: rowIndex + 1 }, (_, pinIndex) => (
@@ -175,7 +177,7 @@ const PlinkoPage = () => {
               ))}
             </div>
             
-            {/* Слоты с множителями */}
+            {/* {t('plinko.slotsWithMultipliers')} */}
             <div className="multiplier-slots">
               {multipliers.map((multiplier, index) => (
                 <div key={index} className="multiplier-slot">
@@ -189,7 +191,7 @@ const PlinkoPage = () => {
           </div>
         </div>
 
-        {/* История игр */}
+        {/* Game History */}
         <div className="plinko-history">
           <div className="history-header">
             <div>User</div>

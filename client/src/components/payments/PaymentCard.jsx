@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import './PaymentCard.css';
 
@@ -10,6 +11,8 @@ const PaymentCard = ({
   isSelected = false,
   disabled = false 
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <div 
       className={`payment-card ${isSelected ? 'selected' : ''} ${disabled ? 'disabled' : ''}`}
@@ -32,7 +35,7 @@ const PaymentCard = ({
             onSelect();
           }}
         >
-          {isSelected ? 'Выбрано' : 'Выбрать'}
+          {isSelected ? t('common.selected') : t('common.select')}
         </Button>
       </div>
     </div>

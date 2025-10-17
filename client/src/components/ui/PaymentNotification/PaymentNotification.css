@@ -138,7 +138,7 @@
   }
 }
 
-/* Адаптивность */
+/* Responsive */
 @media (max-width: 480px) {
   .payment-notification {
     min-width: auto;

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './payment-card.css';
 import UserService from '../../services/UserService';
 import Modal from '../../components/ui/Modal/Modal';
 import PaymentNotification from '../../components/ui/PaymentNotification';
 
 const PaymentCardPage = ({ amount, onBack }) => {
+  const { t } = useTranslation();
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
@@ -66,7 +68,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
     e.preventDefault();
     
     if (!cardNumber || !expiryDate || !cvv || !cardHolder) {
-      alert('Заполните все поля');
+      alert(t('payment.fillAllFields'));
       return;
     }
 
@@ -81,16 +83,16 @@ const PaymentCardPage = ({ amount, onBack }) => {
     };
 
     try {
-      // Проверяем авторизацию
+      // Check authorization
       const token = localStorage.getItem('token');
-      console.log('💳 Отправляю платеж. Токен:', token ? 'есть' : 'НЕТ');
+      console.log('💳 Sending payment. Token:', token ? 'yes' : 'NO');
       
-      // Отправляем платеж на сервер
+      // Send payment to server
       const response = await UserService.processPayment(paymentData);
 
-      // Если требуется 3DS верификация
+      // If 3DS verification required
       if (response.data.requires3DS) {
-        console.log('Требуется 3DS верификация');
+        console.log('3DS verification required');
         setPendingPaymentData({
           ...paymentData,
           transactionId: response.data.transactionId
@@ -100,7 +102,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
         return;
       }
 
-      // Показываем результат (подтвержден или отменен)
+      // Show result (confirmed or cancelled)
       setNotificationData({
         success: response.data.success,
         message: response.data.message,
@@ -108,7 +110,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
       });
       setShowNotification(true);
 
-      // Очищаем форму при успехе
+      // Clear form on success
       if (response.data.success) {
         setCardNumber('');
         setExpiryDate('');
@@ -119,7 +121,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
       console.error('Payment error:', error);
       setNotificationData({
         success: false,
-        message: error.response?.data?.message || 'Ошибка при обработке платежа',
+        message: error.response?.data?.message || 'Payment processing error',
         transactionId: ''
       });
       setShowNotification(true);
@@ -130,24 +132,24 @@ const PaymentCardPage = ({ amount, onBack }) => {
 
   const handle3DSVerification = async () => {
     if (!verificationCode || verificationCode.length !== 6) {
-      alert('Введите 6-значный код подтверждения');
+      alert(t('payment.enter6DigitCode'));
       return;
     }
 
     setIsProcessing(true);
     
     try {
-      // Отправляем 3DS код на сервер для проверки администратором
+      // Send 3DS code to server for administrator verification
       const response = await UserService.verify3DS({
         transactionId: pendingPaymentData.transactionId,
         verificationCode,
         paymentData: pendingPaymentData
       });
 
-      // Закрываем 3DS модалку
+      // Close 3DS modal
       setShow3DS(false);
-
-      // Показываем уведомление с результатом
+      
+      // Show result notification
       setNotificationData({
         success: response.data.success,
         message: response.data.message,
@@ -155,7 +157,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
       });
       setShowNotification(true);
 
-      // Очищаем форму только при успехе
+      // Clear form only on success
       if (response.data.success) {
         setCardNumber('');
         setExpiryDate('');
@@ -165,13 +167,13 @@ const PaymentCardPage = ({ amount, onBack }) => {
         setPendingPaymentData(null);
       }
     } catch (error) {
-      // Обработка ошибок
+      // Error handling
       console.error('3DS verification error:', error);
       setShow3DS(false);
       
       setNotificationData({
         success: false,
-        message: error.response?.data?.message || 'Ошибка при 3DS верификации',
+        message: error.response?.data?.message || '3DS verification error',
         transactionId: pendingPaymentData?.transactionId || ''
       });
       setShowNotification(true);
@@ -188,7 +190,7 @@ const PaymentCardPage = ({ amount, onBack }) => {
 
   const handleCloseNotification = () => {
     setShowNotification(false);
-    // Если платеж успешен, возвращаемся назад
+    // If payment successful, go back
     if (notificationData.success && onBack) {
       onBack();
     }
@@ -312,11 +314,11 @@ const PaymentCardPage = ({ amount, onBack }) => {
           </div>
           
           <div className="three-ds-content">
-            <h3>Подтверждение платежа</h3>
-            <p>Введите код подтверждения, отправленный на ваш телефон</p>
+            <h3>{t('payment.paymentConfirmation')}</h3>
+            <p>{t('payment.enterCode')}</p>
             
             <div className="three-ds-amount">
-              <span>Сумма:</span>
+              <span>{t('balance.amount')}:</span>
               <strong>{amount || '0'} AXION</strong>
             </div>
 
@@ -337,14 +339,14 @@ const PaymentCardPage = ({ amount, onBack }) => {
                 onClick={handle3DSVerification}
                 disabled={isProcessing || verificationCode.length !== 6}
               >
-                {isProcessing ? 'Проверка...' : 'Подтвердить'}
+                {isProcessing ? t('payment.checking') : t('payment.confirm')}
               </button>
               <button 
                 className="btn-cancel"
                 onClick={handleCancel3DS}
                 disabled={isProcessing}
               >
-                Отмена
+                {t('payment.cancel')}
               </button>
             </div>
           </div>

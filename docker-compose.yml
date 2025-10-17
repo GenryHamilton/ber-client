@@ -48,7 +48,7 @@ services:
       DB_URL: mongodb://admin:admin123@mongodb:27017/axion?authSource=admin
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-your-secret-key}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-your-refresh-secret}
-      CLIENT_URL: http://localhost,http://site.ru
+      CLIENT_URL: http://localhost:3000,http://axion-play.su,https://axion-play.su
       API_URL: http://localhost
     depends_on:
       - mongodb

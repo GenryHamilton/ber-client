@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import './UpgraderPage.css';
 
 const UpgraderPage = ({ onRegisterModalOpen }) => {
+  const { t } = useTranslation();
   const [currentLevel, setCurrentLevel] = useState(1);
   const [coins, setCoins] = useState(1000);
   const [isUpgrading, setIsUpgrading] = useState(false);
@@ -39,9 +41,9 @@ const UpgraderPage = ({ onRegisterModalOpen }) => {
       
       <div className="upgrader-content">
         <div className="upgrader-header">
-          <h1>Upgrader Game</h1>
+          <h1>{t('games.upgrader')} Game</h1>
           <div className="coins-display">
-            <span className="coins-label">Coins:</span>
+            <span className="coins-label">{t('upgrader.coins')}:</span>
             <span className="coins-amount">{coins.toLocaleString()}</span>
           </div>
         </div>

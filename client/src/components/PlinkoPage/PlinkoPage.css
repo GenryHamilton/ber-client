@@ -13,7 +13,7 @@
   align-items: flex-start;
 }
 
-/* Панель управления */
+/* Control Panel */
 .plinko-controls {
   background: linear-gradient(218deg, rgba(19, 22, 32, 0.5) 0%, rgba(19, 22, 32, 0) 100%);
   border: 2px solid rgba(102, 110, 151, 0.2);
@@ -204,7 +204,7 @@
   cursor: not-allowed;
 }
 
-/* Игровое поле */
+/* Game Field */
 .plinko-game-area {
   flex: 1;
   display: flex;
@@ -304,7 +304,7 @@
   text-align: center;
 }
 
-/* История игр */
+/* Game History */
 .plinko-history {
   background: linear-gradient(218deg, rgba(19, 22, 32, 0.5) 0%, rgba(19, 22, 32, 0) 100%);
   border: 2px solid rgba(102, 110, 151, 0.2);
@@ -400,7 +400,7 @@
   font-size: 12px;
 }
 
-/* Анимации */
+/* Animations */
 @keyframes ballDrop {
   0% {
     transform: translateY(-50px);
@@ -422,7 +422,7 @@
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
 }
 
-/* Адаптивность */
+/* Responsive */
 @media (max-width: 1024px) {
   .plinko-container {
     flex-direction: column;
