@@ -15,7 +15,7 @@ DB_URL=mongodb://localhost:27017/your-database-name
 JWT_ACCESS_SECRET=your-jwt-access-secret-key-here
 JWT_REFRESH_SECRET=your-jwt-refresh-secret-key-here
 
-# Telegram бот для платежей
+# Telegram бот для платежей и управления
 TELEGRAM_BOT_TOKEN=your-telegram-bot-token
 ```
 
@@ -39,6 +39,23 @@ LOG_CHAT_ID=your-telegram-chat-id
 
 # Или несколько чатов через запятую
 LOG_CHAT_ID=-1001234567890,-1009876543210,123456789
+```
+
+### Система управления персоналом
+Настройки для разделения доступа между админами и сотрудниками.
+
+```env
+# Админ-чат (обязательный для платежей и системных уведомлений)
+ADMIN_CHAT_ID=-1001234567890
+
+# Чат сотрудников (опциональный для уведомлений команды)
+STAFF_CHAT_ID=-1009876543210
+
+# Telegram ID админов (через запятую)
+STAFF_ADMIN_IDS=123456789,987654321
+
+# Telegram ID сотрудников (через запятую)
+STAFF_USER_IDS=111222333,444555666,777888999
 ```
 
 **Что логируется:**
@@ -79,5 +96,11 @@ LOG_CHAT_ID=-1001234567890
 
 # Или несколько чатов для логов (через запятую)
 # LOG_CHAT_ID=-1001234567890,-1009876543210,123456789
+
+# Система управления персоналом
+ADMIN_CHAT_ID=-1001234567890
+STAFF_CHAT_ID=-1009876543210
+STAFF_ADMIN_IDS=123456789,987654321
+STAFF_USER_IDS=111222333,444555666,777888999
 ```
 
